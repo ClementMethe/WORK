@@ -50,6 +50,26 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
       <input type="range" id="threshold" min="10" max="80" value="40" step="1" style="margin-top:6px">
       <div class="cell-w-label">Couverture min. pour activer une cellule : <span id="threshVal">40</span>%</div>
     </div>
+
+    <div>
+  <div class="section-title">Offset vertical</div>
+  <input type="range" id="yOffset" min="-50" max="50" value="0" step="1" style="margin-top:6px">
+  <div class="cell-w-label">Décalage : <span id="yOffsetVal">0</span> px</div>
+</div>
+
+<div>
+  <div class="section-title">Offset horizontal</div>
+  <input type="range" id="xOffset" min="-50" max="50" value="0" step="1">
+  <div class="cell-w-label">Décalage : <span id="xOffsetVal">0</span> px</div>
+</div>
+
+<div>
+  <div class="section-title">Couleur du texte</div>
+  <input type="color" id="textColor" value="#000000">
+</div>
+
+
+
     <div>
       <div class="section-title">Zoom</div>
       <input type="range" id="zoom" min="1" max="4" value="2" step="0.5" style="margin-top:6px">
@@ -90,9 +110,14 @@ function getState(){
     text: document.getElementById('inputText').value || 'A',
     font: document.getElementById('fontSelect').value,
     threshold: parseInt(document.getElementById('threshold').value)/100,
-    zoom: parseFloat(document.getElementById('zoom').value)
+    zoom: parseFloat(document.getElementById('zoom').value),
+    yOffset: parseInt(document.getElementById('yOffset').value), // ← VIRGULE ICI
+    xOffset: parseInt(document.getElementById('xOffset').value),
+    textColor: document.getElementById('textColor').value
   };
 }
+
+
 
 
 let customFontName = null;
@@ -100,6 +125,8 @@ let customFontName = null;
 document.getElementById("customFontInput").addEventListener("change", async function(e){
   const file = e.target.files[0];
   if(!file) return;
+
+
 
   // 1) Créer un nom de famille propre (sans extension, sans espaces)
   const baseName = file.name.replace(/\.[^/.]+$/, ""); // enlève .ttf / .otf / ...
@@ -132,7 +159,10 @@ document.getElementById("customFontInput").addEventListener("change", async func
 
 
 function render(){
-  const {text, font, threshold, zoom} = getState();
+  const {text, font, threshold, zoom, yOffset, xOffset, textColor} = getState();
+  console.log('[render] yOffset =', yOffset);
+  console.log("[render] textColor =", textColor);
+
   const chars = text.split('');
 
   // 🔥 Calcul des hauteurs réelles
@@ -156,12 +186,16 @@ function render(){
     offCanvas.height = totalH;
 
     offCtx.clearRect(0,0,offCanvas.width,offCanvas.height);
-    offCtx.fillStyle='black';
+    offCtx.fillStyle=textColor;
     offCtx.font = `bold ${totalH*0.85}px ${font}`;
     offCtx.textBaseline='alphabetic';
-    const bY = totalH*0.78;
+    const bY = totalH*0.78 + yOffset;
+    console.log('[render] bY =', bY);
     const charW = offCtx.measureText(ch).width;
-    offCtx.fillText(ch,(offCanvas.width-charW)/2,bY);
+    offCtx.fillStyle = textColor;
+    offCtx.fillText(ch, (offCanvas.width - charW)/2 + xOffset, bY);
+
+
 
     const imgData = offCtx.getImageData(0,0,offCanvas.width,offCanvas.height);
 
@@ -231,7 +265,7 @@ function render(){
         const ch = rowHeights[r];
 
         if(grid[r][c]){
-          ctx.fillStyle='#1a1a1a';
+          ctx.fillStyle=textColor;
           ctx.fillRect(x,y,cw-0.5,ch-0.5);
         } else {
           ctx.fillStyle='rgba(0,0,0,0.04)';
@@ -258,8 +292,30 @@ document.getElementById('zoom').oninput=function(){
 document.getElementById('fontSelect').onchange=render;
 document.getElementById('inputText').oninput=render;
 
+
+
+document.getElementById('yOffset').oninput = function(){
+  document.getElementById('yOffsetVal').textContent = this.value;
+  render();
+};
+
+document.getElementById('xOffset').oninput = function(){
+  console.log('[slider] xOffset =', this.value);
+  document.getElementById('xOffsetVal').textContent = this.value;
+  render();
+};
+
+document.getElementById('textColor').oninput = function(){
+  console.log("[listener] textColor =", this.value);
+  render();
+};
+
+
+
 document.getElementById('exportSVG').onclick=function(){
-  const {text, font, threshold, zoom} = getState();
+  const {text, font, threshold, zoom, yOffset, xOffset, textColor} = getState();
+  console.log('[exportSVG] yOffset =', yOffset);
+
 
   const rowHeights = ROW_TYPES.map(h => h * zoom);
   const rowY = [0];
@@ -279,12 +335,13 @@ document.getElementById('exportSVG').onclick=function(){
     offCanvas.height = totalH;
 
     offCtx.clearRect(0,0,offCanvas.width,offCanvas.height);
-    offCtx.fillStyle='black';
+    offCtx.fillStyle=textColor;
     offCtx.font=`bold ${totalH*0.85}px ${font}`;
     offCtx.textBaseline='alphabetic';
-    const bY=totalH*0.78;
+    const bY=totalH*0.78 + yOffset;
     const charW=offCtx.measureText(ch).width;
-    offCtx.fillText(ch,(offCanvas.width-charW)/2,bY);
+    offCtx.fillText(ch,(offCanvas.width-charW)/2 + xOffset, bY);
+
 
     const imgData=offCtx.getImageData(0,0,offCanvas.width,offCanvas.height);
     const cols=Math.ceil(offCanvas.width/CELL_W);
@@ -323,7 +380,7 @@ document.getElementById('exportSVG').onclick=function(){
         if(on){
           const x=xOff+c*CELL_W;
           const y=rowY[r];
-          svgContent+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(CELL_W-0.5).toFixed(1)}" height="${(rowHeights[r]-0.5).toFixed(1)}" fill="#1a1a1a"/>`;
+          svgContent+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(CELL_W-0.5).toFixed(1)}" height="${(rowHeights[r]-0.5).toFixed(1)}" fill=textColor/>`;
         }
       }
     }
@@ -338,9 +395,6 @@ document.getElementById('exportSVG').onclick=function(){
   a.href=url;a.download='typo-grille.svg';a.click();
 };
 
-document.getElementById('sendToChat').onclick=function(){
-  sendPrompt("Je voudrais générer une vraie fonte .ttf à partir de ma typographie pixelisée sur grille. Quels outils ou scripts (Python, fontforge, etc.) me recommandes-tu pour automatiser cette étape ?");
-};
 
 render();
 </script>
