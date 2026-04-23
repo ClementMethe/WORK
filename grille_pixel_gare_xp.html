@@ -231,17 +231,29 @@ function render(){
       }
     }
 
-    if(firstCol===-1){firstCol=0;lastCol=2;}
+// Sécurité : si aucune colonne détectée
+if (firstCol === -1) {
+  firstCol = 0;
+  lastCol = cols - 1;
+}
 
-    const glyphCols = lastCol - firstCol + 1 + 2;
-    const trimmed=[];
+// Ajout d’une marge de sécurité
+const leftPad = 10;
+const rightPad = 6;
 
-    for(let r=0;r<ROW_COUNT;r++){
-      trimmed[r]=[];
-      for(let c=0;c<glyphCols;c++){
-        trimmed[r][c] = grid[r][Math.max(0,firstCol-1+c)] || false;
-      }
-    }
+const startCol = Math.max(0, firstCol - leftPad);
+const endCol   = Math.min(cols - 1, lastCol + rightPad);
+
+const glyphCols = endCol - startCol + 1;
+
+const trimmed = [];
+for (let r = 0; r < ROW_COUNT; r++) {
+  trimmed[r] = [];
+  for (let c = 0; c < glyphCols; c++) {
+    trimmed[r][c] = grid[r][startCol + c] || false;
+  }
+}
+
 
     glyphs.push({grid:trimmed, cols:glyphCols});
     totalCols += glyphCols + 1;
