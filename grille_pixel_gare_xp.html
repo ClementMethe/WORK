@@ -95,14 +95,14 @@ const offCtx = offCanvas.getContext('2d');
 
 const ROW_COUNT = 10;
 
-// 🔥 NOUVELLES HAUTEURS DE RANGÉES
+//  NOUVELLES HAUTEURS DE RANGÉES
 const ROW_TYPES = [
   19.5,19.5,19.5,19.5,
    5,   5,
   19.5,19.5,19.5,19.5
 ];
 
-// 🔥 LARGEUR FIXE DES COLONNES
+//  LARGEUR FIXE DES COLONNES
 const COL_UNIT = 5;
 
 function getState(){
@@ -165,7 +165,7 @@ function render(){
 
   const chars = text.split('');
 
-  // 🔥 Calcul des hauteurs réelles
+  // Calcul des hauteurs réelles
   const rowHeights = ROW_TYPES.map(h => h * zoom);
   const rowY = [0];
   for(let i=1;i<ROW_COUNT;i++){
@@ -173,7 +173,7 @@ function render(){
   }
   const totalH = rowHeights.reduce((a,b)=>a+b,0);
 
-  // 🔥 Largeur fixe des colonnes
+  //  Largeur fixe des colonnes
   const CELL_W = COL_UNIT * zoom;
 
   const glyphs = [];
