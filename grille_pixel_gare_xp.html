@@ -1,37 +1,33 @@
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0; background-color: #F4F4F4}
+*{box-sizing:border-box;margin:0;padding:0;background-color:#F4F4F4}
 .app{display:flex;flex-direction:column}
 .tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary)}
 .tab{padding:8px 18px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--color-text-secondary);background:none;border-top:none;border-left:none;border-right:none}
 .tab.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
 .mode{display:none}.mode.active{display:block}
-
-/* ── MODE TEXTE ── */
 .font-panel{display:flex;gap:16px;padding:1rem 0;flex-wrap:wrap}
 .controls{width:220px;margin:15px;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
 select,input[type=text]{width:100%;font-size:13px}
 input[type=file]{width:100%;font-size:11px}
 canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
 .preview-area{flex:1;min-width:300px;overflow-x:auto}
-.btn{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 14px;font-size:13px;cursor:pointer;width:100%;color:var(--color-text-primary);text-align:left}
+.btn{background-color: #DCDCDC;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 14px;font-size:13px;cursor:pointer;width:100%;color:var(--color-text-primary);text-align:left}
 .btn:hover{background:var(--color-background-secondary)}
 .btn-row{display:flex;gap:6px}.btn-row .btn{flex:1}
 .st{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
 .hint{font-size:11px;color:var(--color-text-tertiary)}
 .sep{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:2px 0}
-
-/* ── MODE DESSIN ── */
-.draw-panel{display:flex;gap:16px;padding:0rem 0 0rem 0}
+.draw-panel{display:flex;gap:16px;padding:0}
 .draw-controls{width:220px;margin:15px;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
 .draw-main{flex:1;display:flex;flex-direction:column;gap:16px;padding:1rem 1rem 1rem 0;min-width:0}
 .draw-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:5px}
-/* Canvas dessin : 60% de la zone draw-main */
 .draw-canvas-wrap{width:60%}
 #drawCanvas{cursor:crosshair;width:100%;height:auto;display:block}
-/* Résultat : 100% de la zone draw-main */
 .draw-result-wrap{width:100%}
 #drawResult{width:100%;height:auto;display:block}
+.otf-note{font-size:10px;color:var(--color-text-tertiary);line-height:1.5;margin-top:4px}
 </style>
 
 <div class="app">
@@ -40,7 +36,7 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
     <button class="tab" data-mode="draw">Dessin</button>
   </div>
 
-  <!-- ══ MODE TEXTE (inchangé) ══ -->
+  <!-- ══ MODE TEXTE ══ -->
   <div class="mode active" id="mode-font">
     <div class="font-panel">
       <div class="controls">
@@ -49,13 +45,10 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
         <hr class="sep">
         <div><div class="st">Police</div>
           <select id="fontSelect" style="margin-top:5px">
-            <option value="sans-serif">Sans-serif</option>
-            <option value="serif">Serif</option>
-            <option value="monospace">Monospace</option>
-            <option value="Georgia">Georgia</option>
+            <option value="sans-serif">Sans-serif</option><option value="serif">Serif</option>
+            <option value="monospace">Monospace</option><option value="Georgia">Georgia</option>
             <option value="Times New Roman" selected>Times New Roman</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Impact">Impact</option>
+            <option value="Courier New">Courier New</option><option value="Impact">Impact</option>
             <option value="Garamond">Garamond</option>
           </select></div>
         <div><div class="st">Police personnalisée</div>
@@ -70,8 +63,7 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
           </select></div>
         <div><div class="st">Style</div>
           <select id="fontStyle" style="margin-top:5px">
-            <option value="normal">Normal</option>
-            <option value="italic" selected>Italic</option>
+            <option value="normal">Normal</option><option value="italic" selected>Italic</option>
             <option value="oblique">Oblique</option>
           </select></div>
         <hr class="sep">
@@ -90,17 +82,21 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
           <div class="hint">Min. couverture : <span id="threshVal">21</span>%</div></div>
         <div><div class="st">Taille de rendu interne</div>
           <input type="range" id="renderSize" min="200" max="2000" value="800" step="50" style="width:100%;margin-top:4px">
-          <div class="hint"><span id="rsVal">800</span>px — plus = plus précis</div></div>
+          <div class="hint"><span id="rsVal">800</span>px</div></div>
         <div><div class="st">Zoom affichage</div>
           <input type="range" id="zoom" min="0.1" max="2" value="0.4" step="0.1" style="width:100%;margin-top:4px">
           <div class="hint">×<span id="zoomVal">0.4</span></div></div>
         <div><div class="st">Couleur</div>
           <input type="color" id="textColor" value="#1a1a1a" style="margin-top:5px"></div>
         <hr class="sep">
+        <div><div class="st">Nom de la fonte</div>
+          <input type="text" id="fontName" value="GrilleTypo" style="margin-top:5px"></div>
+        <hr class="sep">
         <div class="btn-row">
           <button class="btn" id="exportSVG">SVG ↗</button>
           <button class="btn" id="exportPNG">PNG ↗</button>
         </div>
+        <button class="btn" id="exportOTF" style="margin-top:0px">Exporter .otf ↗</button>
       </div>
       <div class="preview-area"><canvas id="mainCanvas"></canvas></div>
     </div>
@@ -130,7 +126,6 @@ canvas{display:block;border:0.5px solid var(--color-border-tertiary);border-radi
           <button class="btn" id="drawExportPNG">PNG ↗</button>
         </div>
       </div>
-
       <div class="draw-main">
         <div class="draw-canvas-wrap">
           <div class="draw-label"></div>
@@ -150,6 +145,16 @@ const ROW_H_RATIO=[19.5,19.5,19.5,19.5,5,5,19.5,19.5,19.5,19.5];
 const ROW_SUM=ROW_H_RATIO.reduce((a,b)=>a+b,0);
 const COL_RATIO=5;
 const BIG_W=4000;
+const EM=1000;
+const ASCENDER=800;
+const DESCENDER=-200;
+const FULL_SPECIMEN =
+  "abcdefghijklmnopqrstuvwxyz" +
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+  "0123456789" +
+  ` !\"#$%&'()*+,-./:;<=>?@[\\]^_\`{|}~` +
+  " \t\n";
+
 
 function rowMetrics(totalH){
   const heights=ROW_H_RATIO.map(h=>h/ROW_SUM*totalH);
@@ -228,6 +233,89 @@ function exportAsSVG(glyphs,CELL_W_S,totalH_S,GAP,color,filename){
   a.download=filename;a.click();
 }
 
+// ── Conversion grille → contours OpenType ──
+// Pour chaque cellule active, on crée un rectangle vectoriel dans le repère fonte.
+// Dans OpenType : y=0 est la baseline, y croît vers le haut.
+// Grille : row 0 = sommet (ascendante), row 9 = fond (descendante)
+// On mappe linéairement : y_fonte = ASCENDER - (y_grille / totalH) * (ASCENDER - DESCENDER)
+
+function gridToOTFPath(grid, cols, CELL_W, totalH){
+  const {heights,ys}=rowMetrics(totalH);
+  const totalFontH=ASCENDER-DESCENDER; // 1000 unités
+  const scaleX=EM/totalH; // colonnes → unités em en X (approximation carrée)
+
+  const path=new opentype.Path();
+
+  for(let r=0;r<10;r++){
+    const rowTop_px=ys[r];
+    const rowBot_px=ys[r]+heights[r];
+    // Convertir en unités fonte (Y inversé)
+    const y1=ASCENDER-( rowTop_px/totalH)*totalFontH; // haut du rect en fonte
+    const y0=ASCENDER-(rowBot_px/totalH)*totalFontH;  // bas du rect en fonte
+
+    for(let c=0;c<cols;c++){
+      if(!grid[r]||!grid[r][c]) continue;
+      const x0=c*CELL_W*scaleX;
+      const x1=(c+1)*CELL_W*scaleX;
+      // Rectangle antihoraire dans OpenType
+      path.moveTo(x0,y0);
+      path.lineTo(x0,y1);
+      path.lineTo(x1,y1);
+      path.lineTo(x1,y0);
+      path.close();
+    }
+  }
+  return path;
+}
+
+
+
+// ajouter fonction pour récupérer kerning de la typo originale
+
+
+// ── Export OTF ──
+document.getElementById('exportOTF').onclick=function(){
+  if(typeof opentype==='undefined'){alert('opentype.js non chargé, réessaie dans un instant.');return;}
+  const s=getFontState();
+  const fontName=document.getElementById('fontName').value||'GrilleTypo';
+  const chars = FULL_SPECIMEN.split('');
+
+  if(chars.length===0){alert('Aucun caractère à exporter.');return;}
+
+  const notdefPath=new opentype.Path();
+  const notdefGlyph=new opentype.Glyph({
+    name:'.notdef', unicode:0, advanceWidth:500, path:notdefPath
+  });
+
+  const glyphList=[notdefGlyph];
+
+  for(const ch of chars){
+    const result=pixelizeChar(ch,s);
+    if(!result.cols) continue;
+    const totalH=s.renderSize;
+    const path=gridToOTFPath(result.grid,result.cols,result.CELL_W,totalH);
+    const advW=Math.round(result.cols*result.CELL_W*(EM/totalH));
+    const glyph=new opentype.Glyph({
+      name:'uni'+ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0'),
+      unicode:ch.codePointAt(0),
+      advanceWidth:advW,
+      path:path
+    });
+    glyphList.push(glyph);
+  }
+
+  const font=new opentype.Font({
+    familyName: fontName,
+    styleName:  'Regular',
+    unitsPerEm: EM,
+    ascender:   ASCENDER,
+    descender:  DESCENDER,
+    glyphs:     glyphList
+  });
+
+  font.download(fontName+'.otf');
+};
+
 // ── MODE TEXTE ──
 const mainCanvas=document.getElementById('mainCanvas');
 function getFontState(){
@@ -281,71 +369,37 @@ document.getElementById('inputText').oninput=renderFont;
 document.getElementById('textColor').oninput=renderFont;
 
 // ── MODE DESSIN ──
-// Résolution interne fixe ratio 1:3
-const DRAW_INTERNAL_W=2700;
-const DRAW_INTERNAL_H=900;
-const DRAW_GRID_H=900;
+const DRAW_INTERNAL_W=2700,DRAW_INTERNAL_H=900,DRAW_GRID_H=900;
 const DRAW_CELL_W=COL_RATIO/ROW_SUM*DRAW_GRID_H;
 const DRAW_COLS=Math.ceil(DRAW_INTERNAL_W/DRAW_CELL_W);
 const {heights:RES_H,ys:RES_Y}=rowMetrics(DRAW_GRID_H);
-
 const drawCanvas=document.getElementById('drawCanvas');
 const drawCtx=drawCanvas.getContext('2d');
 const drawResult=document.getElementById('drawResult');
-
-drawCanvas.width=DRAW_INTERNAL_W;
-drawCanvas.height=DRAW_INTERNAL_H;
-drawCtx.fillStyle='#fff';
-drawCtx.fillRect(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);
-
-// Canvas résultat : dimensions fixes
+drawCanvas.width=DRAW_INTERNAL_W;drawCanvas.height=DRAW_INTERNAL_H;
+drawCtx.fillStyle='#fff';drawCtx.fillRect(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);
 const RES_TOTAL_W=Math.ceil(DRAW_COLS*DRAW_CELL_W)+2;
 const RES_TOTAL_H=Math.ceil(DRAW_GRID_H)+2;
-drawResult.width=RES_TOTAL_W;
-drawResult.height=RES_TOTAL_H;
-
+drawResult.width=RES_TOTAL_W;drawResult.height=RES_TOTAL_H;
 let isDrawing=false,currentTool='draw',lastPos=null;
-
-function getDrawState(){
-  return{
-    brushSize:parseInt(document.getElementById('brushSize').value),
-    threshold:parseInt(document.getElementById('drawThreshold').value)/100,
-    color:document.getElementById('drawColor').value,
-  };
-}
-
+function getDrawState(){return{brushSize:parseInt(document.getElementById('brushSize').value),threshold:parseInt(document.getElementById('drawThreshold').value)/100,color:document.getElementById('drawColor').value};}
 function renderDraw(){
   const s=getDrawState();
-  const tmp=document.createElement('canvas');
-  tmp.width=DRAW_INTERNAL_W;tmp.height=DRAW_INTERNAL_H;
-  const tCtx=tmp.getContext('2d');
-  tCtx.drawImage(drawCanvas,0,0);
+  const tmp=document.createElement('canvas');tmp.width=DRAW_INTERNAL_W;tmp.height=DRAW_INTERNAL_H;
+  const tCtx=tmp.getContext('2d');tCtx.drawImage(drawCanvas,0,0);
   const imgD=tCtx.getImageData(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);
-  for(let i=0;i<imgD.data.length;i+=4){
-    const lum=(imgD.data[i]+imgD.data[i+1]+imgD.data[i+2])/3;
-    imgD.data[i]=imgD.data[i+1]=imgD.data[i+2]=0;
-    imgD.data[i+3]=255-lum;
-  }
+  for(let i=0;i<imgD.data.length;i+=4){const lum=(imgD.data[i]+imgD.data[i+1]+imgD.data[i+2])/3;imgD.data[i]=imgD.data[i+1]=imgD.data[i+2]=0;imgD.data[i+3]=255-lum;}
   tCtx.putImageData(imgD,0,0);
-
-  const scaled=document.createElement('canvas');
-  scaled.width=DRAW_INTERNAL_W;scaled.height=DRAW_GRID_H;
-  const sCtx=scaled.getContext('2d');
-  sCtx.drawImage(tmp,0,0,DRAW_INTERNAL_W,DRAW_GRID_H);
+  const scaled=document.createElement('canvas');scaled.width=DRAW_INTERNAL_W;scaled.height=DRAW_GRID_H;
+  const sCtx=scaled.getContext('2d');sCtx.drawImage(tmp,0,0,DRAW_INTERNAL_W,DRAW_GRID_H);
   const imgF=sCtx.getImageData(0,0,DRAW_INTERNAL_W,DRAW_GRID_H);
-
-  const c=drawResult.getContext('2d');
-  c.clearRect(0,0,RES_TOTAL_W,RES_TOTAL_H);
-
+  const c=drawResult.getContext('2d');c.clearRect(0,0,RES_TOTAL_W,RES_TOTAL_H);
   for(let r=0;r<10;r++){
     const ry=Math.round(RES_Y[r]),rh=Math.max(1,Math.round(RES_H[r]));
     for(let col=0;col<DRAW_COLS;col++){
       const cx=Math.round(col*DRAW_CELL_W),cw=Math.max(1,Math.round(DRAW_CELL_W));
       let filled=0,total=0;
-      for(let py=ry;py<Math.min(ry+rh,DRAW_GRID_H);py++)
-        for(let px=cx;px<Math.min(cx+cw,DRAW_INTERNAL_W);px++){
-          if(imgF.data[(py*DRAW_INTERNAL_W+px)*4+3]>15)filled++;total++;
-        }
+      for(let py=ry;py<Math.min(ry+rh,DRAW_GRID_H);py++) for(let px=cx;px<Math.min(cx+cw,DRAW_INTERNAL_W);px++){if(imgF.data[(py*DRAW_INTERNAL_W+px)*4+3]>15)filled++;total++;}
       const on=total>0&&filled/total>=s.threshold;
       const x=1+col*DRAW_CELL_W,y=1+RES_Y[r],dw=DRAW_CELL_W-0.5,dh=RES_H[r]-0.5;
       if(on){c.fillStyle=s.color;c.fillRect(x,y,dw,dh);}
@@ -353,25 +407,14 @@ function renderDraw(){
     }
   }
 }
-
-function getCanvasPos(e,c){
-  const r=c.getBoundingClientRect();
-  const scaleX=c.width/r.width,scaleY=c.height/r.height;
-  const touch=e.touches?e.touches[0]:e;
-  return{x:(touch.clientX-r.left)*scaleX,y:(touch.clientY-r.top)*scaleY};
-}
+function getCanvasPos(e,c){const r=c.getBoundingClientRect();const scaleX=c.width/r.width,scaleY=c.height/r.height;const touch=e.touches?e.touches[0]:e;return{x:(touch.clientX-r.left)*scaleX,y:(touch.clientY-r.top)*scaleY};}
 function doStroke(pos){
   const s=getDrawState();
   drawCtx.globalCompositeOperation=currentTool==='erase'?'destination-out':'source-over';
-  if(lastPos){
-    drawCtx.strokeStyle=currentTool==='erase'?'rgba(0,0,0,1)':'#000';
-    drawCtx.lineWidth=s.brushSize;drawCtx.lineCap='round';
-    drawCtx.beginPath();drawCtx.moveTo(lastPos.x,lastPos.y);drawCtx.lineTo(pos.x,pos.y);drawCtx.stroke();
-  }
+  if(lastPos){drawCtx.strokeStyle=currentTool==='erase'?'rgba(0,0,0,1)':'#000';drawCtx.lineWidth=s.brushSize;drawCtx.lineCap='round';drawCtx.beginPath();drawCtx.moveTo(lastPos.x,lastPos.y);drawCtx.lineTo(pos.x,pos.y);drawCtx.stroke();}
   drawCtx.fillStyle=currentTool==='erase'?'rgba(0,0,0,1)':'#000';
   drawCtx.beginPath();drawCtx.arc(pos.x,pos.y,s.brushSize/2,0,Math.PI*2);drawCtx.fill();
-  lastPos=pos;
-  renderDraw();
+  lastPos=pos;renderDraw();
 }
 drawCanvas.addEventListener('mousedown',e=>{isDrawing=true;lastPos=null;doStroke(getCanvasPos(e,drawCanvas));});
 drawCanvas.addEventListener('mousemove',e=>{if(isDrawing)doStroke(getCanvasPos(e,drawCanvas));});
@@ -380,17 +423,11 @@ drawCanvas.addEventListener('mouseleave',()=>{isDrawing=false;lastPos=null;});
 drawCanvas.addEventListener('touchstart',e=>{e.preventDefault();isDrawing=true;lastPos=null;doStroke(getCanvasPos(e,drawCanvas));},{passive:false});
 drawCanvas.addEventListener('touchmove',e=>{e.preventDefault();if(isDrawing)doStroke(getCanvasPos(e,drawCanvas));},{passive:false});
 drawCanvas.addEventListener('touchend',()=>{isDrawing=false;lastPos=null;});
-
 document.getElementById('toolDraw').onclick=function(){currentTool='draw';this.style.borderColor='var(--color-text-primary)';document.getElementById('toolErase').style.borderColor='var(--color-border-secondary)';};
 document.getElementById('toolErase').onclick=function(){currentTool='erase';this.style.borderColor='var(--color-text-primary)';document.getElementById('toolDraw').style.borderColor='var(--color-border-secondary)';};
-document.getElementById('clearDraw').onclick=function(){
-  drawCtx.globalCompositeOperation='source-over';
-  drawCtx.fillStyle='#fff';drawCtx.fillRect(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);
-  const c=drawResult.getContext('2d');c.clearRect(0,0,RES_TOTAL_W,RES_TOTAL_H);
-};
+document.getElementById('clearDraw').onclick=function(){drawCtx.globalCompositeOperation='source-over';drawCtx.fillStyle='#fff';drawCtx.fillRect(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);const c=drawResult.getContext('2d');c.clearRect(0,0,RES_TOTAL_W,RES_TOTAL_H);};
 document.getElementById('drawExportSVG').onclick=function(){
-  const s=getDrawState();
-  const {heights:hd,ys:yd}=rowMetrics(DRAW_GRID_H);
+  const s=getDrawState();const {heights:hd,ys:yd}=rowMetrics(DRAW_GRID_H);
   const tmp=document.createElement('canvas');tmp.width=DRAW_INTERNAL_W;tmp.height=DRAW_INTERNAL_H;
   const tCtx=tmp.getContext('2d');tCtx.drawImage(drawCanvas,0,0);
   const imgD=tCtx.getImageData(0,0,DRAW_INTERNAL_W,DRAW_INTERNAL_H);
@@ -414,15 +451,10 @@ document.getElementById('drawExportSVG').onclick=function(){
   a.href=URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="${(DRAW_COLS*DRAW_CELL_W).toFixed(0)}" height="${DRAW_GRID_H}">${svg}</svg>`],{type:'image/svg+xml'}));
   a.download='dessin-grille.svg';a.click();
 };
-document.getElementById('drawExportPNG').onclick=function(){
-  drawResult.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dessin-grille.png';a.click();});
-};
+document.getElementById('drawExportPNG').onclick=function(){drawResult.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dessin-grille.png';a.click();});};
 const drawSliders={brushSize:'brushSizeVal',drawThreshold:'drawThreshVal'};
-Object.entries(drawSliders).forEach(([id,out])=>{
-  document.getElementById(id).oninput=function(){document.getElementById(out).textContent=this.value;renderDraw();};
-});
+Object.entries(drawSliders).forEach(([id,out])=>{document.getElementById(id).oninput=function(){document.getElementById(out).textContent=this.value;renderDraw();};});
 document.getElementById('drawColor').oninput=renderDraw;
-
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.onclick=function(){
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -431,6 +463,5 @@ document.querySelectorAll('.tab').forEach(tab=>{
     document.getElementById('mode-'+this.dataset.mode).classList.add('active');
   };
 });
-
 renderFont();
 </script>
