@@ -2,7 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; background: #F4F4F4; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 .tabs { display: flex; border-bottom: 1px solid #ccc; }
 .tab {
@@ -44,7 +44,6 @@
 
 .label {
   font-size: 11px;
-  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #666;
@@ -75,19 +74,6 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 .btn-row { display: flex; gap: 6px; }
 .btn-row .btn { flex: 1; }
 
-.btn-save {
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-}
-.btn-save:hover { background: #333; }
-
 .draw-canvas-wrap { width: 60%; }
 #drawCanvas { cursor: crosshair; width: 100%; height: auto; display: block; }
 .draw-result-wrap { width: 100%; }
@@ -95,98 +81,116 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 
 .status { font-size: 10px; color: #999; margin-top: 4px; min-height: 16px; }
 
+/* ── Bouton enregistrer ── */
+.btn-save {
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.btn-save:hover { background: #333; }
+
 /* ── Grillothèque ── */
-.grillo-header {
-  padding: 16px 20px 8px 20px;
+.grillo-bar {
+  padding: 12px 20px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.grillo-header input[type="text"] {
-  font-size: 13px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 200px;
-  background: #fff;
-}
-.grillo-filter {
-  font-size: 12px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
+  gap: 10px;
 }
 .grillo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-  padding: 16px 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  padding: 0 20px 20px 20px;
 }
 .grillo-card {
-  background: #fff;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
-  transition: box-shadow 0.15s;
+  background: #fff;
 }
-.grillo-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+.grillo-card:hover { border-color: #999; }
 .grillo-card img {
   width: 100%;
-  height: 120px;
+  height: 100px;
   object-fit: contain;
-  background: #F4F4F4;
+  background: #f4f4f4;
   display: block;
-  padding: 8px;
+  padding: 6px;
 }
-.grillo-card-info {
-  padding: 10px 12px;
-  border-top: 1px solid #eee;
-}
-.grillo-card-title { font-size: 13px; font-weight: 600; color: #111; }
-.grillo-card-meta { font-size: 11px; color: #999; margin-top: 2px; }
-.grillo-empty { padding: 40px 20px; text-align: center; color: #999; font-size: 13px; }
-.grillo-loading { padding: 40px 20px; text-align: center; color: #999; font-size: 13px; }
+.grillo-card-info { padding: 8px 10px; border-top: 1px solid #eee; }
+.grillo-card-title { font-size: 12px; font-weight: 600; color: #111; }
+.grillo-card-meta { font-size: 10px; color: #999; margin-top: 2px; }
+.grillo-msg { padding: 40px 20px; text-align: center; color: #999; font-size: 13px; }
 
-/* Modal de sauvegarde */
-.modal-overlay {
+/* ── Modal sauvegarde ── */
+.modal-bg {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.35);
   z-index: 100;
   align-items: center;
   justify-content: center;
 }
-.modal-overlay.open { display: flex; }
-.modal {
+.modal-bg.open { display: flex; }
+.modal-box {
   background: #fff;
-  border-radius: 8px;
-  padding: 24px;
-  width: 320px;
+  border-radius: 4px;
+  padding: 20px;
+  width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
-.modal h3 { font-size: 15px; font-weight: 600; }
-.modal label { font-size: 12px; color: #666; margin-bottom: 2px; display: block; }
-.modal input[type="text"] {
-  width: 100%;
+.modal-box input[type="text"] {
   font-size: 13px;
-  padding: 7px 10px;
+  padding: 6px 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 3px;
+  width: 100%;
   background: #fafafa;
 }
-.modal-btns { display: flex; gap: 8px; margin-top: 4px; }
-.modal-btns .btn { flex: 1; text-align: center; }
-.modal-status { font-size: 11px; color: #999; min-height: 14px; }
+.modal-save-status { font-size: 10px; color: #999; min-height: 14px; }
+
+/* ── Lightbox ── */
+.lightbox-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-bg.open { display: flex; }
+.lightbox-bg img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+}
+.lightbox-close {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  background: none;
+  border: none;
+}
 </style>
 
 
-<!-- ═══ ONGLETS ═══ -->
+<!-- ONGLETS -->
 <div class="tabs">
   <button class="tab active" data-mode="font">Texte</button>
   <button class="tab" data-mode="draw">Dessin</button>
@@ -194,19 +198,18 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 </div>
 
 
-<!-- ═══ MODE TEXTE ═══ -->
+<!-- MODE TEXTE -->
 <div class="mode active" id="mode-font">
   <div class="layout">
     <div class="sidebar">
-
       <div>
         <div class="label">Texte</div>
-        <input type="text" id="inputText" value="Gare XP" style="margin-top:5px;">
+        <input type="text" id="inputText" value="Gare XP" style="margin-top: 5px;">
       </div>
       <hr>
       <div>
         <div class="label">Police</div>
-        <select id="fontSelect" style="margin-top:5px;">
+        <select id="fontSelect" style="margin-top: 5px;">
           <option value="sans-serif">Sans-serif</option>
           <option value="serif">Serif</option>
           <option value="monospace">Monospace</option>
@@ -218,12 +221,12 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
         </select>
       </div>
       <div>
-        <div class="label">Police personnalisée</div>
-        <input type="file" id="customFontInput" accept=".ttf,.otf,.woff,.woff2" style="margin-top:5px;">
+        <div class="label">police personnalisée</div>
+        <input type="file" id="customFontInput" accept=".ttf,.otf,.woff,.woff2" style="margin-top: 5px;">
       </div>
       <div>
         <div class="label">Graisse</div>
-        <select id="fontWeight" style="margin-top:5px;">
+        <select id="fontWeight" style="margin-top: 5px;">
           <option value="100" selected>Thin 100</option>
           <option value="200">ExtraLight 200</option>
           <option value="300">Light 300</option>
@@ -236,20 +239,19 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
         </select>
       </div>
       <div>
-        <div class="label">Style</div>
-        <select id="fontStyle" style="margin-top:5px;">
+        <div class="label">style</div>
+        <select id="fontStyle" style="margin-top: 5px;">
           <option value="normal">Normal</option>
           <option value="italic" selected>Italic</option>
         </select>
       </div>
       <hr>
       <div>
-        <div class="label">Taille de fonte — <span id="fontSizeVal">100</span>%</div>
+        <div class="label">taille de fonte — <span id="fontSizeVal">100</span>%</div>
         <input type="range" id="fontSize" min="30" max="100" value="100" step="1">
-        <div class="sublabel">Proportion de la lettre dans la grille</div>
       </div>
       <div>
-        <div class="label">Espacement — <span id="lsVal">1.5</span> colonnes</div>
+        <div class="label">espacement — <span id="lsVal">1.5</span> colonnes</div>
         <input type="range" id="letterSpacing" min="0" max="10" value="1.5" step="0.25">
       </div>
       <div>
@@ -258,38 +260,35 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
       </div>
       <hr>
       <div>
-        <div class="label">Seuil de remplissage — <span id="threshVal">21</span>%</div>
+        <div class="label">threshold remplissage — <span id="threshVal">21</span>%</div>
         <input type="range" id="threshold" min="5" max="80" value="21" step="1">
-        <div class="sublabel">Part minimale de la cellule couverte pour l'activer</div>
       </div>
       <div>
-        <div class="label">Rendu interne — <span id="rsVal">800</span>px</div>
+        <div class="label">rendersize — <span id="rsVal">800</span>px</div>
         <input type="range" id="renderSize" min="200" max="2000" value="800" step="50">
-        <div class="sublabel">Plus élevé = plus précis, plus lent</div>
       </div>
       <div>
-        <div class="label">Zoom — ×<span id="zoomVal">0.4</span></div>
+        <div class="label">zoom — ×<span id="zoomVal">0.4</span></div>
         <input type="range" id="zoom" min="0.1" max="2" value="0.4" step="0.1">
       </div>
       <div>
-        <div class="label">Couleur</div>
-        <input type="color" id="textColor" value="#1a1a1a" style="margin-top:5px;">
+        <div class="label">couleur</div>
+        <input type="color" id="textColor" value="#1a1a1a" style="margin-top: 5px;">
       </div>
       <hr>
       <div>
-        <div class="label">Nom de la fonte exportée</div>
-        <input type="text" id="fontName" value="GrilleTypo" style="margin-top:5px;">
+        <div class="label">nom de la font exportée</div>
+        <input type="text" id="fontName" value="GrilleTypo" style="margin-top: 5px;">
       </div>
       <hr>
       <div class="btn-row">
-        <button class="btn" id="exportSVG">SVG ↗</button>
-        <button class="btn" id="exportPNG">PNG ↗</button>
+        <button class="btn" id="exportSVG">SVG</button>
+        <button class="btn" id="exportPNG">PNG</button>
       </div>
-      <button class="btn" id="exportOTF">Exporter .otf ↗</button>
+      <button class="btn" id="exportOTF">Exporter .otf</button>
       <div class="status" id="otfStatus"></div>
       <hr>
-      <button class="btn-save" id="saveFont">Enregistrer dans la Grillothèque</button>
-
+      <button class="btn-save" id="saveFont">Enregistrer</button>
     </div>
     <div class="preview">
       <canvas id="mainCanvas"></canvas>
@@ -298,7 +297,7 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 </div>
 
 
-<!-- ═══ MODE DESSIN ═══ -->
+<!-- MODE DESSIN -->
 <div class="mode" id="mode-draw">
   <div class="layout">
     <div class="sidebar">
@@ -308,35 +307,34 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
       </div>
       <div>
         <div class="label">Outil</div>
-        <div class="btn-row" style="margin-top:5px;">
-          <button class="btn" id="toolDraw" style="border-color:#111;">✏ Dessiner</button>
-          <button class="btn" id="toolErase">⌫ Effacer</button>
+        <div class="btn-row" style="margin-top: 5px;">
+          <button class="btn" id="toolDraw" style="border-color: #111;">Dessiner</button>
+          <button class="btn" id="toolErase">Effacer</button>
         </div>
       </div>
       <hr>
       <div>
-        <div class="label">Seuil de remplissage — <span id="drawThreshVal">30</span>%</div>
+        <div class="label">threshold remplissage — <span id="drawThreshVal">30</span>%</div>
         <input type="range" id="drawThreshold" min="5" max="80" value="30" step="1">
       </div>
       <div>
         <div class="label">Couleur</div>
-        <input type="color" id="drawColor" value="#1a1a1a" style="margin-top:5px;">
+        <input type="color" id="drawColor" value="#1a1a1a" style="margin-top: 5px;">
       </div>
       <hr>
-      <button class="btn" id="clearDraw">🗑 Effacer tout</button>
-      <div class="btn-row" style="margin-top:6px;">
-        <button class="btn" id="drawExportSVG">SVG ↗</button>
-        <button class="btn" id="drawExportPNG">PNG ↗</button>
+      <button class="btn" id="clearDraw">Effacer tout</button>
+      <div class="btn-row" style="margin-top: 6px;">
+        <button class="btn" id="drawExportSVG">SVG</button>
+        <button class="btn" id="drawExportPNG">PNG</button>
       </div>
       <hr>
-      <button class="btn-save" id="saveDraw">Enregistrer dans la Grillothèque</button>
+      <button class="btn-save" id="saveDraw">Enregistrer</button>
     </div>
     <div class="draw-main">
       <div class="draw-canvas-wrap">
         <canvas id="drawCanvas"></canvas>
       </div>
       <div class="draw-result-wrap">
-        <div class="sublabel" style="margin-bottom:5px;">Résultat pixelisé</div>
         <canvas id="drawResult"></canvas>
       </div>
     </div>
@@ -344,42 +342,36 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 </div>
 
 
-<!-- ═══ GRILLOTHÈQUE ═══ -->
+<!-- GRILLOTHÈQUE -->
 <div class="mode" id="mode-grillo">
-  <div class="grillo-header">
-    <input type="text" id="grilloSearch" placeholder="Rechercher par titre ou auteur…">
-    <select class="grillo-filter" id="grilloFilter">
-      <option value="all">Tous les types</option>
-      <option value="texte">Texte</option>
-      <option value="dessin">Dessin</option>
-    </select>
-    <button class="btn" style="width:auto;" id="grilloRefresh">↺ Actualiser</button>
+  <div class="grillo-bar">
+    <button class="btn" style="width: auto;" id="grilloRefresh">↺ Actualiser</button>
     <span class="status" id="grilloStatus"></span>
   </div>
   <div class="grillo-grid" id="grilloGrid">
-    <div class="grillo-loading">Chargement des créations…</div>
+    <div class="grillo-msg">Chargement…</div>
   </div>
 </div>
 
 
-<!-- ═══ MODAL DE SAUVEGARDE ═══ -->
-<div class="modal-overlay" id="saveModal">
-  <div class="modal">
-    <h3>Enregistrer dans la Grillothèque</h3>
-    <div>
-      <label>Titre de la création</label>
-      <input type="text" id="saveTitle" placeholder="Ex : Mon A gothique">
-    </div>
-    <div>
-      <label>Ton prénom ou pseudonyme</label>
-      <input type="text" id="saveAuthor" placeholder="Ex : Marie">
-    </div>
-    <div class="modal-status" id="saveStatus"></div>
-    <div class="modal-btns">
+<!-- MODAL SAUVEGARDE -->
+<div class="modal-bg" id="saveModal">
+  <div class="modal-box">
+    <input type="text" id="saveTitle" placeholder="Titre">
+    <input type="text" id="saveAuthor" placeholder="Prénom">
+    <div class="modal-save-status" id="saveStatus"></div>
+    <div class="btn-row">
       <button class="btn" id="saveCancel">Annuler</button>
       <button class="btn-save" id="saveConfirm">Enregistrer</button>
     </div>
   </div>
+</div>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox-bg" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <img id="lightboxImg" src="" alt="">
 </div>
 
 
@@ -388,13 +380,12 @@ canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
 // ─────────────────────────────────────────────
 // SUPABASE
 // ─────────────────────────────────────────────
-const SUPABASE_URL  = 'https://edhkntgrclganbwdbbol.supabase.co';
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkaGtudGdyY2xnYW5id2RiYm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0NzIzMzIsImV4cCI6MjA5MzA0ODMzMn0.fvnAW14zM1dPxiWz2vutA3Y4IU83a_7yQSZgsj6wW7k';
-const TABLE         = 'grille_creations';
+const SUPABASE_URL = 'https://edhkntgrclganbwdbbol.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkaGtudGdyY2xnYW5id2RiYm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0NzIzMzIsImV4cCI6MjA5MzA0ODMzMn0.fvnAW14zM1dPxiWz2vutA3Y4IU83a_7yQSZgsj6wW7k';
+const TABLE = 'creations';
 
-// Envoie une création vers Supabase
-async function sauvegarderCreation(auteur, titre, type, parametres, apercu_png) {
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
+async function sauvegarder(auteur, titre, type, apercu_png) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
     method: 'POST',
     headers: {
       'Content-Type':  'application/json',
@@ -402,27 +393,18 @@ async function sauvegarderCreation(auteur, titre, type, parametres, apercu_png) 
       'Authorization': 'Bearer ' + SUPABASE_KEY,
       'Prefer':        'return=minimal'
     },
-    body: JSON.stringify({ auteur, titre, type, parametres, apercu_png })
+    body: JSON.stringify({ auteur, titre, type, apercu_png })
   });
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(err);
-  }
+  if (!res.ok) throw new Error(await res.text());
 }
 
-// Charge toutes les créations depuis Supabase (les plus récentes en premier)
-async function chargerCreations() {
-  const response = await fetch(
+async function charger() {
+  const res = await fetch(
     `${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=created_at.desc`,
-    {
-      headers: {
-        'apikey':        SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-      }
-    }
+    { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
   );
-  if (!response.ok) throw new Error(await response.text());
-  return response.json();
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }
 
 
@@ -436,17 +418,12 @@ const BIG_CANVAS_W = 4000;
 const EM           = 1000;
 const ASCENDER     =  800;
 const DESCENDER    = -200;
-
 const FULL_SPECIMEN =
   "abcdefghijklmnopqrstuvwxyz" +
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
   "0123456789" +
   " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-
-// ─────────────────────────────────────────────
-// UTILITAIRES GRILLE
-// ─────────────────────────────────────────────
 function computeRowMetrics(totalHeight) {
   const heights = ROW_HEIGHTS.map(h => h / ROW_TOTAL * totalHeight);
   const ys = [];
@@ -461,7 +438,7 @@ function cellWidth(totalHeight) {
 
 
 // ─────────────────────────────────────────────
-// PIXELISATION D'UN CARACTÈRE
+// PIXELISATION
 // ─────────────────────────────────────────────
 function pixelizeChar(ch, state) {
   const H  = state.renderSize;
@@ -490,9 +467,9 @@ function pixelizeChar(ch, state) {
   }
   if (!found) return { grid: [], cols: 0, cellW: CW };
 
-  const margin  = Math.ceil(CW);
-  const cropX   = Math.max(0, minX - margin);
-  const cropW   = Math.min(BIG_CANVAS_W, maxX + margin + 1) - cropX;
+  const margin = Math.ceil(CW);
+  const cropX  = Math.max(0, minX - margin);
+  const cropW  = Math.min(BIG_CANVAS_W, maxX + margin + 1) - cropX;
 
   const cropped    = document.createElement('canvas');
   cropped.width    = cropW;
@@ -527,7 +504,7 @@ function pixelizeChar(ch, state) {
 
 
 // ─────────────────────────────────────────────
-// RENDU GRILLE SUR CANVAS
+// RENDU GRILLE
 // ─────────────────────────────────────────────
 function renderGrid(targetCanvas, glyphs, gridHeight, colWidth, letterGap, color) {
   const { heights, ys } = computeRowMetrics(gridHeight);
@@ -578,9 +555,7 @@ function exportSVG(glyphs, colWidth, gridHeight, letterGap, color, filename) {
       for (let col = 0; col < cols; col++) {
         if (grid[row] && grid[row][col]) {
           const x = xOffset + col * colWidth;
-          rects += `<rect x="${x.toFixed(2)}" y="${ys[row].toFixed(2)}" `
-                 + `width="${(colWidth - 0.5).toFixed(2)}" height="${(heights[row] - 0.5).toFixed(2)}" `
-                 + `fill="${color}"/>`;
+          rects += `<rect x="${x.toFixed(2)}" y="${ys[row].toFixed(2)}" width="${(colWidth - 0.5).toFixed(2)}" height="${(heights[row] - 0.5).toFixed(2)}" fill="${color}"/>`;
         }
       }
     }
@@ -595,7 +570,7 @@ function exportSVG(glyphs, colWidth, gridHeight, letterGap, color, filename) {
 
 
 // ─────────────────────────────────────────────
-// OPENTYPE — contours et kerning
+// OPENTYPE
 // ─────────────────────────────────────────────
 function gridToOpenTypePath(grid, cols, colWidth, renderHeight) {
   const { heights, ys } = computeRowMetrics(renderHeight);
@@ -636,20 +611,16 @@ function measureKerning(chars, fontString) {
   return kernPairs;
 }
 
-
-// ─────────────────────────────────────────────
-// EXPORT .OTF
-// ─────────────────────────────────────────────
 document.getElementById('exportOTF').onclick = function () {
   if (typeof opentype === 'undefined') { alert('opentype.js non chargé.'); return; }
   const state    = getFontState();
   const fontName = document.getElementById('fontName').value || 'GrilleTypo';
   const status   = document.getElementById('otfStatus');
   const chars    = [...new Set(FULL_SPECIMEN.split(''))].filter(c => c.trim() !== '');
-  status.textContent = 'Génération en cours…';
+  status.textContent = 'génération…';
   setTimeout(() => {
-    const fontString = `${state.fontStyle} ${state.fontWeight} ${state.renderSize * state.fontSize}px ${state.font}`;
-    const kernPairs  = measureKerning(chars, fontString);
+    const fontString  = `${state.fontStyle} ${state.fontWeight} ${state.renderSize * state.fontSize}px ${state.font}`;
+    const kernPairs   = measureKerning(chars, fontString);
     const notdefGlyph = new opentype.Glyph({ name: '.notdef', unicode: 0, advanceWidth: 500, path: new opentype.Path() });
     const glyphList   = [notdefGlyph];
     const glyphByChar = {};
@@ -674,7 +645,7 @@ document.getElementById('exportOTF').onclick = function () {
     }
     if (kernEntries.length > 0) font.tables.kern = { version: 0, subtables: [{ coverage: 1, format: 0, pairs: kernEntries }] };
     font.download(fontName + '.otf');
-    status.textContent = `✓ ${glyphList.length - 1} glyphes, ${kernEntries.length} paires de kerning`;
+    status.textContent = `✓ ${glyphList.length - 1} glyphes`;
   }, 50);
 };
 
@@ -754,12 +725,14 @@ const drawCanvas = document.getElementById('drawCanvas');
 const drawCtx    = drawCanvas.getContext('2d');
 const drawResult = document.getElementById('drawResult');
 
-drawCanvas.width = DRAW_W; drawCanvas.height = DRAW_H;
-drawCtx.fillStyle = '#fff'; drawCtx.fillRect(0, 0, DRAW_W, DRAW_H);
+drawCanvas.width  = DRAW_W;
+drawCanvas.height = DRAW_H;
+drawCtx.clearRect(0, 0, DRAW_W, DRAW_H);
 
 const RESULT_W = Math.ceil(DRAW_COLS * DRAW_CW) + 2;
 const RESULT_H = Math.ceil(DRAW_H) + 2;
-drawResult.width = RESULT_W; drawResult.height = RESULT_H;
+drawResult.width  = RESULT_W;
+drawResult.height = RESULT_H;
 
 let isDrawing = false, currentTool = 'draw', lastPos = null;
 
@@ -773,15 +746,15 @@ function getDrawState() {
 
 function renderDraw() {
   const s = getDrawState();
-  const tmp = document.createElement('canvas');
-  tmp.width = DRAW_W; tmp.height = DRAW_H;
+  const tmp    = document.createElement('canvas');
+  tmp.width    = DRAW_W; tmp.height = DRAW_H;
   const tmpCtx = tmp.getContext('2d');
   tmpCtx.drawImage(drawCanvas, 0, 0);
   const pixels = tmpCtx.getImageData(0, 0, DRAW_W, DRAW_H);
   for (let i = 0; i < pixels.data.length; i += 4) {
-    const lum = (pixels.data[i] + pixels.data[i+1] + pixels.data[i+2]) / 3;
+    const alpha = pixels.data[i + 3];
     pixels.data[i] = pixels.data[i+1] = pixels.data[i+2] = 0;
-    pixels.data[i+3] = 255 - lum;
+    pixels.data[i+3] = alpha > 10 ? alpha : 0;
   }
   tmpCtx.putImageData(pixels, 0, 0);
   const scaledPixels = tmpCtx.getImageData(0, 0, DRAW_W, DRAW_H).data;
@@ -837,7 +810,7 @@ drawCanvas.addEventListener('touchend',   () => { isDrawing = false; lastPos = n
 
 document.getElementById('toolDraw').onclick  = function () { currentTool = 'draw';  this.style.borderColor = '#111'; document.getElementById('toolErase').style.borderColor = ''; };
 document.getElementById('toolErase').onclick = function () { currentTool = 'erase'; this.style.borderColor = '#111'; document.getElementById('toolDraw').style.borderColor = ''; };
-document.getElementById('clearDraw').onclick = function () { drawCtx.globalCompositeOperation = 'source-over'; drawCtx.fillStyle = '#fff'; drawCtx.fillRect(0, 0, DRAW_W, DRAW_H); drawResult.getContext('2d').clearRect(0, 0, RESULT_W, RESULT_H); };
+document.getElementById('clearDraw').onclick = function () { drawCtx.globalCompositeOperation = 'source-over'; drawCtx.clearRect(0, 0, DRAW_W, DRAW_H); drawResult.getContext('2d').clearRect(0, 0, RESULT_W, RESULT_H); };
 
 document.getElementById('drawExportSVG').onclick = function () {
   const s = getDrawState();
@@ -869,76 +842,68 @@ document.getElementById('drawExportPNG').onclick = function () {
   drawResult.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'dessin-grille.png'; a.click(); });
 };
 
-document.getElementById('brushSize').oninput = function () { document.getElementById('brushSizeVal').textContent = this.value; };
+document.getElementById('brushSize').oninput    = function () { document.getElementById('brushSizeVal').textContent = this.value; };
 document.getElementById('drawThreshold').oninput = function () { document.getElementById('drawThreshVal').textContent = this.value; renderDraw(); };
-document.getElementById('drawColor').oninput = renderDraw;
+document.getElementById('drawColor').oninput     = renderDraw;
 
 
 // ─────────────────────────────────────────────
-// GRILLOTHÈQUE — affichage
+// GRILLOTHÈQUE
 // ─────────────────────────────────────────────
-let toutesLesCreations = []; // cache local pour la recherche/filtre
-
-function formaterDate(isoString) {
-  const d = new Date(isoString);
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-function afficherCreations(liste) {
-  const grid = document.getElementById('grilloGrid');
-  if (liste.length === 0) {
-    grid.innerHTML = '<div class="grillo-empty">Aucune création trouvée.</div>';
-    return;
-  }
-  grid.innerHTML = liste.map(c => `
-    <div class="grillo-card">
-      <img src="${c.apercu_png || ''}" alt="${c.titre}" onerror="this.style.display='none'">
-      <div class="grillo-card-info">
-        <div class="grillo-card-title">${c.titre}</div>
-        <div class="grillo-card-meta">par ${c.auteur} · ${formaterDate(c.created_at)} · ${c.type}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function filtrerEtAfficher() {
-  const recherche = document.getElementById('grilloSearch').value.toLowerCase();
-  const filtre    = document.getElementById('grilloFilter').value;
-  const resultat  = toutesLesCreations.filter(c => {
-    const matchTexte = c.titre.toLowerCase().includes(recherche) || c.auteur.toLowerCase().includes(recherche);
-    const matchType  = filtre === 'all' || c.type === filtre;
-    return matchTexte && matchType;
-  });
-  afficherCreations(resultat);
+function formaterDate(iso) {
+  return new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 async function chargerEtAfficher() {
-  const status = document.getElementById('grilloStatus');
   const grid   = document.getElementById('grilloGrid');
-  grid.innerHTML = '<div class="grillo-loading">Chargement…</div>';
+  const status = document.getElementById('grilloStatus');
+  grid.innerHTML = '<div class="grillo-msg">Chargement…</div>';
   status.textContent = '';
   try {
-    toutesLesCreations = await chargerCreations();
-    filtrerEtAfficher();
-    status.textContent = `${toutesLesCreations.length} création${toutesLesCreations.length > 1 ? 's' : ''}`;
+    const liste = await charger();
+    if (liste.length === 0) { grid.innerHTML = '<div class="grillo-msg">Aucune création pour le moment.</div>'; return; }
+    grid.innerHTML = liste.map(c => `
+      <div class="grillo-card" data-png="${c.apercu_png || ''}">
+        <img src="${c.apercu_png || ''}" alt="${c.titre}">
+        <div class="grillo-card-info">
+          <div class="grillo-card-title">${c.titre}</div>
+          <div class="grillo-card-meta">${c.auteur} · ${formaterDate(c.created_at)}</div>
+        </div>
+      </div>
+    `).join('');
+    // Clic sur une carte → lightbox
+    grid.querySelectorAll('.grillo-card').forEach(card => {
+      card.onclick = function () {
+        const png = this.dataset.png;
+        if (!png) return;
+        document.getElementById('lightboxImg').src = png;
+        document.getElementById('lightbox').classList.add('open');
+      };
+    });
+    status.textContent = liste.length + ' création' + (liste.length > 1 ? 's' : '');
   } catch (err) {
-    grid.innerHTML = '<div class="grillo-empty">Erreur de connexion à la base de données.</div>';
-    status.textContent = 'Erreur : ' + err.message;
+    grid.innerHTML = '<div class="grillo-msg">Erreur de connexion.</div>';
+    status.textContent = err.message;
   }
 }
 
-document.getElementById('grilloSearch').oninput  = filtrerEtAfficher;
-document.getElementById('grilloFilter').onchange = filtrerEtAfficher;
-document.getElementById('grilloRefresh').onclick  = chargerEtAfficher;
+document.getElementById('grilloRefresh').onclick = chargerEtAfficher;
 
 
 // ─────────────────────────────────────────────
-// MODAL DE SAUVEGARDE
+// LIGHTBOX
 // ─────────────────────────────────────────────
-let pendingSaveType = null; // 'texte' ou 'dessin'
+document.getElementById('lightboxClose').onclick = function () { document.getElementById('lightbox').classList.remove('open'); };
+document.getElementById('lightbox').onclick = function (e) { if (e.target === this) this.classList.remove('open'); };
+
+
+// ─────────────────────────────────────────────
+// MODAL SAUVEGARDE
+// ─────────────────────────────────────────────
+let pendingType = null;
 
 function ouvrirModal(type) {
-  pendingSaveType = type;
+  pendingType = type;
   document.getElementById('saveTitle').value  = '';
   document.getElementById('saveAuthor').value = '';
   document.getElementById('saveStatus').textContent = '';
@@ -946,62 +911,43 @@ function ouvrirModal(type) {
   document.getElementById('saveTitle').focus();
 }
 
-document.getElementById('saveFont').onclick = () => ouvrirModal('texte');
-document.getElementById('saveDraw').onclick = () => ouvrirModal('dessin');
+document.getElementById('saveFont').onclick   = () => ouvrirModal('texte');
+document.getElementById('saveDraw').onclick   = () => ouvrirModal('dessin');
 document.getElementById('saveCancel').onclick = () => document.getElementById('saveModal').classList.remove('open');
+document.getElementById('saveModal').onclick  = function (e) { if (e.target === this) this.classList.remove('open'); };
 
 document.getElementById('saveConfirm').onclick = async function () {
   const titre  = document.getElementById('saveTitle').value.trim();
   const auteur = document.getElementById('saveAuthor').value.trim();
   const status = document.getElementById('saveStatus');
+  if (!titre || !auteur) { status.textContent = 'Remplis les deux champs.'; return; }
 
-  if (!titre)  { status.textContent = 'Donne un titre à ta création.'; return; }
-  if (!auteur) { status.textContent = 'Indique ton prénom ou pseudonyme.'; return; }
-
-  status.textContent = 'Enregistrement…';
+  status.textContent = '…';
   this.disabled = true;
 
   try {
-    // Générer un aperçu PNG selon le type
     let apercu_png = '';
-    let parametres = {};
-
-    if (pendingSaveType === 'texte') {
-      const s    = getFontState();
-      const CW   = cellWidth(s.renderSize) * s.zoom;
-      const H    = s.renderSize * s.zoom;
-      const gap  = CW * s.letterSpacing;
-      const ec   = document.createElement('canvas');
-      renderGrid(ec, s.text.split('').map(ch => pixelizeChar(ch, s)), H, CW, gap, s.color);
+    if (pendingType === 'texte') {
+      const s  = getFontState();
+      const CW = cellWidth(s.renderSize) * s.zoom;
+      const H  = s.renderSize * s.zoom;
+      const ec = document.createElement('canvas');
+      renderGrid(ec, s.text.split('').map(ch => pixelizeChar(ch, s)), H, CW, CW * s.letterSpacing, s.color);
       apercu_png = ec.toDataURL('image/png');
-      parametres = s;
     } else {
-      // Pour le dessin, on prend le canvas résultat
       apercu_png = drawResult.toDataURL('image/png');
-      parametres = { threshold: getDrawState().threshold, color: getDrawState().color };
     }
 
-    await sauvegarderCreation(auteur, titre, pendingSaveType, parametres, apercu_png);
-
-    status.textContent = '✓ Enregistré !';
+    await sauvegarder(auteur, titre, pendingType, apercu_png);
+    status.textContent = '✓';
     setTimeout(() => {
       document.getElementById('saveModal').classList.remove('open');
-      // Si la grillothèque est ouverte, on actualise
-      if (document.getElementById('mode-grillo').classList.contains('active')) {
-        chargerEtAfficher();
-      }
-    }, 800);
-
+      if (document.getElementById('mode-grillo').classList.contains('active')) chargerEtAfficher();
+    }, 600);
   } catch (err) {
     status.textContent = 'Erreur : ' + err.message;
   }
-
   this.disabled = false;
-};
-
-// Fermer la modal en cliquant sur le fond
-document.getElementById('saveModal').onclick = function (e) {
-  if (e.target === this) this.classList.remove('open');
 };
 
 
@@ -1013,17 +959,10 @@ document.querySelectorAll('.tab').forEach(tab => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.mode').forEach(m => m.classList.remove('active'));
     this.classList.add('active');
-    const modeId = 'mode-' + this.dataset.mode;
-    document.getElementById(modeId).classList.add('active');
-    // Charger la grillothèque à la première ouverture
-    if (this.dataset.mode === 'grillo' && toutesLesCreations.length === 0) {
-      chargerEtAfficher();
-    }
+    document.getElementById('mode-' + this.dataset.mode).classList.add('active');
+    if (this.dataset.mode === 'grillo') chargerEtAfficher();
   };
 });
 
-
-// Premier rendu
 renderFont();
-
 </script>
