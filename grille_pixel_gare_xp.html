@@ -2,22 +2,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
 
 
-
-
-<div class="tabs">
-  <button class="tab active" data-mode="font">Texte</button>
-  <button class="tab" data-mode="draw">Dessin</button>
-  <button class="tab" data-mode="grillo">Grillothèque</button>
+<!-- onglets -->
+<div class="onglets">
+  <button class="onglet actif" data-mode="font">Texte</button>
+  <button class="onglet" data-mode="dessin">Dessin</button>
+  <button class="onglet" data-mode="grillo">Grillothèque</button>
 </div>
 
-<!-- MODE TEXTE -->
-<div class="mode active" id="mode-font">
-  <div class="layout">
+
+<!-- mode texte -->
+<div class="mode actif" id="mode-font">
+  <div class="disposition">
+
     <div class="sidebar">
-      <div><div class="label">Texte</div><input type="text" id="inputText" value="Gare XP" style="margin-top:5px;"></div>
+
+      <div>
+        <div class="etiquette">Texte</div>
+        <input type="text" id="inputText" value="Gare XP" style="margin-top: 5px;">
+      </div>
+
       <hr>
-      <div><div class="label">Police</div>
-        <select id="fontSelect" style="margin-top:5px;">
+
+      <div>
+        <div class="etiquette">Police</div>
+        <select id="fontSelect" style="margin-top: 5px;">
           <option value="sans-serif">Sans-serif</option>
           <option value="serif">Serif</option>
           <option value="monospace">Monospace</option>
@@ -28,172 +36,443 @@
           <option value="Garamond">Garamond</option>
         </select>
       </div>
-      <div><div class="label">police personnalisée</div><input type="file" id="customFontInput" accept=".ttf,.otf,.woff,.woff2" style="margin-top:5px;"></div>
-      <div><div class="label">Graisse</div>
-        <select id="fontWeight" style="margin-top:5px;">
-          <option value="100" selected>Thin 100</option><option value="200">ExtraLight 200</option>
-          <option value="300">Light 300</option><option value="400">Regular 400</option>
-          <option value="500">Medium 500</option><option value="600">SemiBold 600</option>
-          <option value="700">Bold 700</option><option value="800">ExtraBold 800</option>
+
+      <div>
+        <div class="etiquette">Police personnalisée</div>
+        <input type="file" id="customFontInput" accept=".ttf,.otf,.woff,.woff2" style="margin-top: 5px;">
+      </div>
+
+      <div>
+        <div class="etiquette">Graisse</div>
+        <select id="fontWeight" style="margin-top: 5px;">
+          <option value="100" selected>Thin 100</option>
+          <option value="200">ExtraLight 200</option>
+          <option value="300">Light 300</option>
+          <option value="400">Regular 400</option>
+          <option value="500">Medium 500</option>
+          <option value="600">SemiBold 600</option>
+          <option value="700">Bold 700</option>
+          <option value="800">ExtraBold 800</option>
           <option value="900">Black 900</option>
         </select>
       </div>
-      <div><div class="label">style</div>
-        <select id="fontStyle" style="margin-top:5px;">
+
+      <div>
+        <div class="etiquette">Style</div>
+        <select id="fontStyle" style="margin-top: 5px;">
           <option value="normal">Normal</option>
           <option value="italic" selected>Italic</option>
         </select>
       </div>
+
       <hr>
-      <div><div class="label">taille de fonte — <span id="fontSizeVal">100</span>%</div><input type="range" id="fontSize" min="30" max="100" value="100" step="1"></div>
-      <div><div class="label">espacement — <span id="lsVal">1.5</span> colonnes</div><input type="range" id="letterSpacing" min="0" max="10" value="1.5" step="0.25"></div>
-      <div><div class="label">Offset vertical — <span id="yOVal">-35</span>px</div><input type="range" id="yOffset" min="-200" max="200" value="-35" step="1"></div>
-      <hr>
-      <div><div class="label">threshold — <span id="threshVal">21</span>%</div><input type="range" id="threshold" min="5" max="80" value="21" step="1"></div>
-      <div><div class="label">rendersize — <span id="rsVal">800</span>px</div><input type="range" id="renderSize" min="200" max="2000" value="800" step="50"></div>
-      <div><div class="label">zoom — ×<span id="zoomVal">0.4</span></div><input type="range" id="zoom" min="0.1" max="2" value="0.4" step="0.1"></div>
-      <div><div class="label">couleur</div><input type="color" id="textColor" value="#1a1a1a" style="margin-top:5px;"></div>
-      <hr>
-      <div><div class="label">nom de la font</div><input type="text" id="fontName" value="GrilleTypo" style="margin-top:5px;"></div>
-      <hr>
-      <div class="btn-row">
-        <button class="btn" id="exportSVG">SVG</button>
-        <button class="btn" id="exportPNG">PNG</button>
+
+      <div>
+        <div class="etiquette">Taille de fonte — <span id="fontSizeVal">100</span>%</div>
+        <input type="range" id="fontSize" min="30" max="100" value="100" step="1">
       </div>
-      <button class="btn" id="exportOTF">Exporter .otf</button>
+
+      <div>
+        <div class="etiquette">Espacement — <span id="lsVal">1.5</span> colonnes</div>
+        <input type="range" id="letterSpacing" min="0" max="10" value="1.5" step="0.25">
+      </div>
+
+      <div>
+        <div class="etiquette">Offset vertical — <span id="yOVal">-35</span>px</div>
+        <input type="range" id="yOffset" min="-200" max="200" value="-35" step="1">
+      </div>
+
       <hr>
-      <button class="btn-save" id="saveFont">Enregistrer</button>
+
+      <div>
+        <div class="etiquette">Threshold — <span id="threshVal">21</span>%</div>
+        <input type="range" id="threshold" min="5" max="80" value="21" step="1">
+      </div>
+
+      <div>
+        <div class="etiquette">Rendersize — <span id="rsVal">800</span>px</div>
+        <input type="range" id="renderSize" min="200" max="2000" value="800" step="50">
+      </div>
+
+      <div>
+        <div class="etiquette">Zoom — ×<span id="zoomVal">0.4</span></div>
+        <input type="range" id="zoom" min="0.1" max="2" value="0.4" step="0.1">
+      </div>
+
+      <div>
+        <div class="etiquette">Couleur</div>
+        <input type="color" id="textColor" value="#1a1a1a">
+      </div>
+
+      <hr>
+
+      <div>
+        <div class="etiquette">Nom de la fonte exportée</div>
+        <input type="text" id="fontName" value="GrilleTypo" style="margin-top: 5px;">
+      </div>
+
+      <hr>
+
+      <div class="rangee-boutons">
+        <button id="exportSVG">SVG</button>
+        <button id="exportPNG">PNG</button>
+      </div>
+      <button id="exportOTF">Exporter .otf</button>
+
+      <hr>
+
+      <button class="btn-enregistrer" id="saveFont">Enregistrer</button>
+
     </div>
-    <div class="preview"><canvas id="mainCanvas"></canvas></div>
+
+    <div class="zone-apercu">
+      <canvas id="mainCanvas"></canvas>
+    </div>
+
   </div>
 </div>
 
-<!-- MODE DESSIN -->
-<div class="mode" id="mode-draw">
-  <div class="layout">
+
+<!-- mode dessin -->
+<div class="mode" id="mode-dessin">
+  <div class="disposition">
+
     <div class="sidebar">
-      <div><div class="label">brosse — <span id="brushSizeVal">24</span>px</div><input type="range" id="brushSize" min="4" max="120" value="24" step="2"></div>
-      <div><div class="label">Outil</div>
-        <div class="btn-row" style="margin-top:5px;">
-          <button class="btn" id="toolDraw" style="border-color:#111;">Dessiner</button>
-          <button class="btn" id="toolErase">Effacer</button>
+
+      <div>
+        <div class="etiquette">Brosse — <span id="brushSizeVal">24</span>px</div>
+        <input type="range" id="brushSize" min="4" max="120" value="24" step="2">
+      </div>
+
+      <div>
+        <div class="etiquette">Outil</div>
+        <div class="rangee-boutons" style="margin-top: 5px;">
+          <button id="toolDraw" style="border-color: #111;">Dessiner</button>
+          <button id="toolErase">Effacer</button>
         </div>
       </div>
+
       <hr>
-      <div><div class="label">threshold — <span id="drawThreshVal">30</span>%</div><input type="range" id="drawThreshold" min="5" max="80" value="30" step="1"></div>
-      <div><div class="label">Couleur</div><input type="color" id="drawColor" value="#1a1a1a" style="margin-top:5px;"></div>
-      <hr>
-      <button class="btn" id="clearDraw">Effacer tout</button>
-      <div class="btn-row" style="margin-top:6px;">
-        <button class="btn" id="drawExportSVG">SVG</button>
-        <button class="btn" id="drawExportPNG">PNG</button>
+
+      <div>
+        <div class="etiquette">Threshold — <span id="drawThreshVal">30</span>%</div>
+        <input type="range" id="drawThreshold" min="5" max="80" value="30" step="1">
       </div>
+
+      <div>
+        <div class="etiquette">Couleur</div>
+        <input type="color" id="drawColor" value="#1a1a1a">
+      </div>
+
       <hr>
-      <button class="btn-save" id="saveDraw">Enregistrer</button>
+
+      <button id="clearDraw">Effacer tout</button>
+
+      <div class="rangee-boutons" style="margin-top: 6px;">
+        <button id="drawExportSVG">SVG</button>
+        <button id="drawExportPNG">PNG</button>
+      </div>
+
+      <hr>
+
+      <button class="btn-enregistrer" id="saveDraw">Enregistrer</button>
+
     </div>
-    <div class="draw-main">
-      <div class="draw-canvas-wrap"><canvas id="drawCanvas"></canvas></div>
-      <div class="draw-result-wrap"><canvas id="drawResult"></canvas></div>
+
+    <div class="zone-dessin">
+      <div class="zone-brosse">
+        <canvas id="canvasDessin"></canvas>
+      </div>
+      <div class="zone-resultat">
+        <canvas id="canvasResultat"></canvas>
+      </div>
     </div>
+
   </div>
 </div>
 
-<!-- GRILLOTHÈQUE -->
+
+<!-- grillothèque -->
 <div class="mode" id="mode-grillo">
-  <div class="grillo-bar">
-    <button class="btn" style="width:auto;" id="grilloRefresh">↺</button>
+  <div class="barre-grillo">
+    <button style="width: auto;" id="grilloRefresh">Actualiser</button>
   </div>
-  <div class="grillo-grid" id="grilloGrid"></div>
+  <div class="grille-cartes" id="grilleCartes"></div>
 </div>
 
-<!-- MODAL SAUVEGARDE -->
-<div class="modal-bg" id="saveModal">
-  <div class="modal-box">
-    <input type="text" id="saveTitle" placeholder="Titre">
-    <input type="text" id="saveAuthor" placeholder="Prénom">
-    <div class="btn-row">
-      <button class="btn" id="saveCancel">Annuler</button>
-      <button class="btn-save" id="saveConfirm">Enregistrer</button>
+
+<!-- modal sauvegarde -->
+<div class="fond-modal" id="modalSauvegarde">
+  <div class="boite-modal">
+    <input type="text" id="saveTitre" placeholder="Titre">
+    <input type="text" id="saveAuteur" placeholder="Prénom">
+    <div class="rangee-boutons">
+      <button id="saveAnnuler">Annuler</button>
+      <button class="btn-enregistrer" id="saveConfirmer">Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox-bg" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">×</button>
+
+<!-- lightbox -->
+<div class="fond-lightbox" id="lightbox">
+  <button class="fermer-lightbox" id="fermerLightbox">×</button>
   <img id="lightboxImg" src="" alt="">
 </div>
 
 
-
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
 
-.tabs { display: flex; border-bottom: 1px solid #ccc; }
-.tab { padding: 8px 18px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; border-bottom: 2px solid transparent; color: #666; background: none; }
-.tab.active { color: #111; border-bottom-color: #111; }
-.mode { display: none; }
-.mode.active { display: block; }
-.layout { display: flex; gap: 16px; padding: 16px 0; flex-wrap: wrap; }
-.sidebar { width: 220px; margin: 0 15px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
-.preview { flex: 1; min-width: 300px; overflow-x: auto; }
-.draw-main { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 0 16px 16px 0; min-width: 0; }
-.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-top: 2px; }
-hr { border: none; border-top: 1px solid #ddd; margin: 2px 0; }
-select, input[type="text"] { width: 100%; font-size: 13px; }
-input[type="file"] { width: 100%; font-size: 11px; }
-input[type="range"] { width: 100%; margin-top: 4px; }
-canvas { display: block; border: 1px solid #ddd; border-radius: 4px; }
-.btn { background: #DCDCDC; border: 1px solid #bbb; border-radius: 4px; padding: 7px 14px; font-size: 13px; cursor: pointer; width: 100%; text-align: left; color: #111; }
-.btn:hover { background: #ccc; }
-.btn-row { display: flex; gap: 6px; }
-.btn-row .btn { flex: 1; }
-.draw-canvas-wrap { width: 60%; }
-#drawCanvas { cursor: crosshair; width: 100%; height: auto; display: block; }
-.draw-result-wrap { width: 100%; }
-#drawResult { width: 100%; height: auto; display: block; }
-.btn-save { background: #111; color: #fff; border: none; border-radius: 4px; padding: 7px 14px; font-size: 13px; cursor: pointer; width: 100%; text-align: left; }
-.btn-save:hover { background: #333; }
+* { box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
-/* Grillothèque */
-.grillo-bar { padding: 12px 20px; }
-.grillo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 0 20px 20px 20px; }
-.grillo-card { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; cursor: pointer; background: #fff; }
-.grillo-card:hover { border-color: #999; }
-.grillo-card img { width: 100%; height: 100px; object-fit: contain; background: #f4f4f4; display: block; padding: 6px; }
-.grillo-card-info { padding: 8px 10px; border-top: 1px solid #eee; }
-.grillo-card-meta { font-size: 10px; color: #999; }
+body, select, input, button { 
+  font-size: 13px; 
+  color: #111; 
+}
 
-/* Modal sauvegarde */
-.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 100; align-items: center; justify-content: center; }
-.modal-bg.open { display: flex; }
-.modal-box { background: #fff; border-radius: 4px; padding: 20px; width: 280px; display: flex; flex-direction: column; gap: 10px; }
-.modal-box input[type="text"] { font-size: 13px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 3px; width: 100%; background: #fafafa; }
+/* onglets */
+.onglets { 
+  display: flex; 
+  border-bottom: 1px solid #ccc; 
+  gap:6px; 
+}
 
-/* Lightbox */
-.lightbox-bg { display: none; position: fixed; inset: 0; background: white; z-index: 200; align-items: center; justify-content: center; }
-.lightbox-bg.open { display: flex; }
-.lightbox-bg img { max-width: 90vw; max-height: 90vh; object-fit: contain; display: block; }
-.lightbox-close { position: fixed; top: 16px; right: 20px; font-size: 28px; color: black; cursor: pointer; line-height: 1; background: none; border: none; }
+.onglet { 
+  padding: 8px 18px; 
+  font-size: 12px; 
+  font-weight: 500; 
+  border: none ;
+  cursor: pointer; 
+  background-color: #0000  
+}
+
+.onglet.actif { 
+  background-color: #ccc; 
+}
+
+
+.mode { 
+  display: none; 
+}
+.mode.actif { 
+  display: block; 
+}
+
+.disposition { 
+  display: flex; gap: 16px; 
+  padding: 16px 0; 
+  flex-wrap: wrap; 
+}
+
+.sidebar { width: 220px; 
+  margin: 0 15px; 
+  display: 
+  flex; flex-direction: 
+  column; gap: 10px; 
+}
+
+.zone-apercu { 
+  flex: 1; 
+  min-width: 300px; 
+  overflow-x: auto; 
+}
+.zone-dessin { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+  padding: 0 16px 16px 0; 
+  min-width: 0; 
+}
+
+/* etiquettes */
+.etiquette { 
+  font-size: 13px; 
+  text-transform: uppercase; 
+  color: #666; 
+  margin-top: 2px; 
+}
+
+
+/* champs de saisie */
+select, input[type="text"], input[type="file"], input[type="range"], input[type="color"] { 
+  width: 100%; padding: 3px;
+}
+
+
+/* canvas */
+canvas { 
+  display: block; 
+  border: 1px solid #ddd; 
+}
+
+/* boutons */
+button { 
+  padding: 7px 14px; 
+  cursor: pointer; 
+  text-align: left; 
+}
+
+button:hover { 
+  background: #d8d8d8; 
+}
+
+.rangee-boutons { 
+  display: flex; 
+  gap: 6px; 
+}
+
+.rangee-boutons button { 
+  flex: 1; 
+}
+
+.btn-enregistrer { 
+  background: #111; color: #fff; 
+}
+
+.btn-enregistrer:hover { 
+  background: #333; 
+}
+
+
+/* canvas de dessin */
+.zone-brosse { 
+  width: 60%; 
+}
+
+#canvasDessin { 
+  cursor: crosshair; 
+  width: 100%; 
+  height: auto; 
+  display: block; 
+}
+
+.zone-resultat { 
+  width: 100%; 
+}
+
+#canvasResultat { 
+  width: 100%; 
+  height: auto; 
+  display: block; 
+}
+
+/* grillothèque */
+.barre-grillo { padding: 12px 20px; }
+.grille-cartes { display: 
+  grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 12px; 
+  padding: 0 20px 20px 20px; }
+
+.carte { 
+  border: 1px solid #ddd; 
+  overflow: hidden; 
+  cursor: pointer; 
+  background: #fff; }
+
+.carte:hover { 
+  border-color: #999; 
+}
+
+.carte img { 
+  width: 100%; 
+  height: 100px; 
+  object-fit: contain; 
+  background: #f4f4f4; 
+  display: block; 
+  padding: 6px; 
+}
+
+.carte-info { 
+  padding: 8px 10px; 
+  border-top: 1px solid #eee; 
+  font-size: 10px; 
+  color: #999; 
+}
+
+
+/* modal sauvegarde */
+.fond-modal { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.35); 
+  z-index: 100; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.fond-modal.ouvert { 
+  display: flex; 
+}
+
+.boite-modal { 
+  background: #fff; 
+  padding: 20px; 
+  width: 280px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+/* lightbox */
+.fond-lightbox { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: #fff; 
+  z-index: 200; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.fond-lightbox.ouvert { 
+  display: flex; 
+}
+
+.fond-lightbox img { 
+  max-width: 90vw; 
+  max-height: 90vh; 
+  object-fit: contain; 
+}
+
+.fermer-lightbox { 
+  position: fixed; 
+  top: 16px; 
+  right: 20px; 
+  font-size: 28px; 
+  cursor: pointer; 
+  background: none; 
+  border: none; width: auto; 
+}
+
 </style>
-
 
 <script>
 
+// supabase
 const SUPABASE_URL = 'https://edhkntgrclganbwdbbol.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkaGtudGdyY2xnYW5id2RiYm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0NzIzMzIsImV4cCI6MjA5MzA0ODMzMn0.fvnAW14zM1dPxiWz2vutA3Y4IU83a_7yQSZgsj6wW7k';
 const TABLE = 'grille_creations';
 
-async function sauvegarder(auteur, titre, type, apercu_png) {
+async function sauvegarderEnBase(auteur, titre, type, apercu_png) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=minimal' },
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=minimal'
+    },
     body: JSON.stringify({ auteur, titre, type, apercu_png })
   });
   if (!res.ok) throw new Error(await res.text());
 }
 
-async function charger() {
+async function chargerDepuisBase() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=created_at.desc`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
   });
@@ -201,318 +480,602 @@ async function charger() {
   return res.json();
 }
 
-const ROW_HEIGHTS  = [19.5, 19.5, 19.5, 19.5, 5, 5, 19.5, 19.5, 19.5, 19.5];
-const ROW_TOTAL    = ROW_HEIGHTS.reduce((a, b) => a + b, 0);
-const COL_WIDTH    = 5;
-const BIG_CANVAS_W = 4000;
-const EM = 1000, ASCENDER = 800, DESCENDER = -200;
-const FULL_SPECIMEN = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-function computeRowMetrics(totalHeight) {
-  const heights = ROW_HEIGHTS.map(h => h / ROW_TOTAL * totalHeight);
-  const ys = []; let y = 0;
-  for (let i = 0; i < 10; i++) { ys.push(y); y += heights[i]; }
-  return { heights, ys };
+// constantes grille
+const HAUTEURS_RANGEES = [19.5, 19.5, 19.5, 19.5, 5, 5, 19.5, 19.5, 19.5, 19.5];
+const TOTAL_HAUTEURS   = HAUTEURS_RANGEES.reduce((a, b) => a + b, 0);
+const LARGEUR_COLONNE  = 5;
+const LARGEUR_GRAND_CANVAS = 4000;
+
+
+const EM = 1000, ASCENDANTE = 800, DESCENDANTE = -200;
+
+// spécimen complet pour export fonte
+const SPECIMEN = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ÉÈÀàéèäôâÂÄËÊêëîïÎÏÛÜûüÚú";
+
+
+// calcule la hauteur de chaque rangée et position y de départ
+function metriquesRangees(hauteurTotale) {
+  const hauteurs = HAUTEURS_RANGEES.map(h => h / TOTAL_HAUTEURS * hauteurTotale);
+  const posY = [];
+  let y = 0;
+  for (let i = 0; i < 10; i++) { posY.push(y); y += hauteurs[i]; }
+  return { hauteurs, posY };
 }
-function cellWidth(totalHeight) { return COL_WIDTH / ROW_TOTAL * totalHeight; }
 
-function pixelizeChar(ch, state) {
-  const H = state.renderSize, CW = cellWidth(H);
-  const { heights, ys } = computeRowMetrics(H);
-  const bigCanvas = document.createElement('canvas');
-  bigCanvas.width = BIG_CANVAS_W; bigCanvas.height = H;
-  const bigCtx = bigCanvas.getContext('2d');
-  bigCtx.font = `${state.fontStyle} ${state.fontWeight} ${H * state.fontSize}px ${state.font}`;
-  bigCtx.textBaseline = 'alphabetic'; bigCtx.fillStyle = '#000';
-  bigCtx.fillText(ch, BIG_CANVAS_W / 2, H * 0.78 + state.yOffset);
-  const pixels = bigCtx.getImageData(0, 0, BIG_CANVAS_W, H).data;
-  let minX = BIG_CANVAS_W, maxX = 0, found = false;
-  for (let y = 0; y < H; y++) for (let x = 0; x < BIG_CANVAS_W; x++)
-    if (pixels[(y * BIG_CANVAS_W + x) * 4 + 3] > 15) { if (x < minX) minX = x; if (x > maxX) maxX = x; found = true; }
-  if (!found) return { grid: [], cols: 0, cellW: CW };
-  const margin = Math.ceil(CW), cropX = Math.max(0, minX - margin);
-  const cropW = Math.min(BIG_CANVAS_W, maxX + margin + 1) - cropX;
-  const cropped = document.createElement('canvas');
-  cropped.width = cropW; cropped.height = H;
-  const croppedCtx = cropped.getContext('2d');
-  croppedCtx.drawImage(bigCanvas, cropX, 0, cropW, H, 0, 0, cropW, H);
-  const glyphStartX = minX - cropX, glyphCols = Math.ceil((maxX - minX + 1) / CW);
-  const croppedPixels = croppedCtx.getImageData(0, 0, cropW, H).data;
-  const grid = [];
-  for (let row = 0; row < 10; row++) {
-    grid[row] = [];
-    const rowY = Math.round(ys[row]), rowH = Math.max(1, Math.round(heights[row]));
-    for (let col = 0; col < glyphCols; col++) {
-      const cellX = Math.round(glyphStartX + col * CW), cellW = Math.max(1, Math.round(CW));
-      let filled = 0, total = 0;
-      for (let py = rowY; py < Math.min(rowY + rowH, H); py++)
-        for (let px = cellX; px < Math.min(cellX + cellW, cropW); px++) { if (croppedPixels[(py * cropW + px) * 4 + 3] > 15) filled++; total++; }
-      grid[row][col] = total > 0 && filled / total >= state.threshold;
+// largeur d'une colonne en pixels pour une hauteur de grille donnée
+function largeurCellule(hauteurTotale) {
+  return LARGEUR_COLONNE / TOTAL_HAUTEURS * hauteurTotale;
+}
+
+
+// pixelisation caractère
+function pixeliserCaractere(ch, etat) {
+  const H  = etat.renderSize;
+  const LC = largeurCellule(H);
+  const { hauteurs, posY } = metriquesRangees(H);
+
+  // dessin du caractère sur un grand canvas pour pas le couper
+  const grandCanvas = document.createElement('canvas');
+  grandCanvas.width  = LARGEUR_GRAND_CANVAS;
+  grandCanvas.height = H;
+  const grandCtx = grandCanvas.getContext('2d');
+  grandCtx.font         = `${etat.fontStyle} ${etat.fontWeight} ${H * etat.fontSize}px ${etat.font}`;
+  grandCtx.textBaseline = 'alphabetic';
+  grandCtx.fillStyle    = '#000';
+  grandCtx.fillText(ch, LARGEUR_GRAND_CANVAS / 2, H * 0.78 + etat.yOffset);
+
+  // scan pixel pour trouver bornes du glyphe
+  const pixels = grandCtx.getImageData(0, 0, LARGEUR_GRAND_CANVAS, H).data;
+  let minX = LARGEUR_GRAND_CANVAS, maxX = 0, trouve = false;
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < LARGEUR_GRAND_CANVAS; x++) {
+      if (pixels[(y * LARGEUR_GRAND_CANVAS + x) * 4 + 3] > 15) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        trouve = true;
+      }
     }
   }
-  return { grid, cols: glyphCols, cellW: CW };
-}
+  if (!trouve) return { grille: [], colonnes: 0, largeurCellule: LC };
 
-function renderGrid(targetCanvas, glyphs, gridHeight, colWidth, letterGap, color) {
-  const { heights, ys } = computeRowMetrics(gridHeight);
-  const totalWidth = glyphs.reduce((sum, g, i) => sum + g.cols * colWidth + (i < glyphs.length - 1 ? letterGap : 0), 0);
-  targetCanvas.width = Math.ceil(totalWidth) + 2; targetCanvas.height = Math.ceil(gridHeight) + 2;
-  const ctx = targetCanvas.getContext('2d');
-  ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
-  let xOffset = 1;
-  for (const { grid, cols } of glyphs) {
-    for (let row = 0; row < 10; row++) for (let col = 0; col < cols; col++) {
-      const x = xOffset + col * colWidth, y = 1 + ys[row], cw = colWidth - 0.5, ch = heights[row] - 0.5;
-      if (grid[row] && grid[row][col]) { ctx.fillStyle = color; ctx.fillRect(x, y, cw, ch); }
-      else { ctx.fillStyle = 'rgba(0,0,0,0.03)'; ctx.fillRect(x, y, cw, ch); ctx.strokeStyle = 'rgba(0,0,0,0.08)'; ctx.lineWidth = 0.3; ctx.strokeRect(x + 0.15, y + 0.15, cw - 0.3, ch - 0.3); }
-    }
-    xOffset += cols * colWidth + letterGap;
-  }
-}
+  // recadrage autour du glyphe avec marge d'une cellule
+  const marge  = Math.ceil(LC);
+  const debutX = Math.max(0, minX - marge);
+  const largeur = Math.min(LARGEUR_GRAND_CANVAS, maxX + marge + 1) - debutX;
 
-function exportSVG(glyphs, colWidth, gridHeight, letterGap, color, filename) {
-  const { heights, ys } = computeRowMetrics(gridHeight);
-  const totalWidth = glyphs.reduce((sum, g, i) => sum + g.cols * colWidth + (i < glyphs.length - 1 ? letterGap : 0), 0);
-  let rects = '', xOffset = 0;
-  for (const { grid, cols } of glyphs) {
-    for (let row = 0; row < 10; row++) for (let col = 0; col < cols; col++)
-      if (grid[row] && grid[row][col]) { const x = xOffset + col * colWidth; rects += `<rect x="${x.toFixed(2)}" y="${ys[row].toFixed(2)}" width="${(colWidth-0.5).toFixed(2)}" height="${(heights[row]-0.5).toFixed(2)}" fill="${color}"/>`; }
-    xOffset += cols * colWidth + letterGap;
-  }
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth.toFixed(0)}" height="${gridHeight}">${rects}</svg>`], { type: 'image/svg+xml' }));
-  link.download = filename; link.click();
-}
+  const canvasRecadre = document.createElement('canvas');
+  canvasRecadre.width  = largeur;
+  canvasRecadre.height = H;
+  const ctxRecadre = canvasRecadre.getContext('2d');
+  ctxRecadre.drawImage(grandCanvas, debutX, 0, largeur, H, 0, 0, largeur, H);
 
-function gridToOpenTypePath(grid, cols, colWidth, renderHeight) {
-  const { heights, ys } = computeRowMetrics(renderHeight);
-  const scale = EM / renderHeight, path = new opentype.Path();
-  for (let row = 0; row < 10; row++) {
-    const yTop = ASCENDER - (ys[row] / renderHeight) * (ASCENDER - DESCENDER);
-    const yBot = ASCENDER - ((ys[row] + heights[row]) / renderHeight) * (ASCENDER - DESCENDER);
-    for (let col = 0; col < cols; col++) {
-      if (!grid[row] || !grid[row][col]) continue;
-      const xL = col * colWidth * scale, xR = (col + 1) * colWidth * scale;
-      path.moveTo(xL, yBot); path.lineTo(xL, yTop); path.lineTo(xR, yTop); path.lineTo(xR, yBot); path.close();
+  // scan de chaque cellule de la grille
+  const debutGlyphe  = minX - debutX;
+  const nbColonnes   = Math.ceil((maxX - minX + 1) / LC);
+  const pixelsRecadres = ctxRecadre.getImageData(0, 0, largeur, H).data;
+
+  const grille = [];
+  for (let rangee = 0; rangee < 10; rangee++) {
+    grille[rangee] = [];
+    const ry = Math.round(posY[rangee]);
+    const rh = Math.max(1, Math.round(hauteurs[rangee]));
+
+    for (let col = 0; col < nbColonnes; col++) {
+      const cx = Math.round(debutGlyphe + col * LC);
+      const cw = Math.max(1, Math.round(LC));
+      let remplis = 0, total = 0;
+      for (let py = ry; py < Math.min(ry + rh, H); py++) {
+        for (let px = cx; px < Math.min(cx + cw, largeur); px++) {
+          if (pixelsRecadres[(py * largeur + px) * 4 + 3] > 15) remplis++;
+          total++;
+        }
+      }
+      grille[rangee][col] = total > 0 && remplis / total >= etat.threshold;
     }
   }
-  return path;
+
+  return { grille, colonnes: nbColonnes, largeurCellule: LC };
 }
 
-function measureKerning(chars, fontString) {
-  const MEASURE_PX = 200, mf = fontString.replace(/\d+(\.\d+)?px/, MEASURE_PX + 'px');
-  const c = document.createElement('canvas'); c.width = 2; c.height = 2;
-  const ctx = c.getContext('2d'); ctx.font = mf; ctx.fontKerning = 'normal';
-  const sw = {}; for (const ch of chars) sw[ch] = ctx.measureText(ch).width;
-  const kp = {};
-  for (const a of chars) for (const b of chars) { const k = ctx.measureText(a+b).width - sw[a] - sw[b]; if (Math.abs(k) > 0.1) kp[a+'|'+b] = Math.round(k * (EM / MEASURE_PX)); }
-  return kp;
+
+// dessine grille sur canvas
+function dessinerGrille(canvasCible, glyphes, hauteurGrille, largeurCol, ecartement, couleur) {
+  const { hauteurs, posY } = metriquesRangees(hauteurGrille);
+  const largeurTotale = glyphes.reduce((somme, g, i) =>
+    somme + g.colonnes * largeurCol + (i < glyphes.length - 1 ? ecartement : 0), 0);
+
+  canvasCible.width  = Math.ceil(largeurTotale) + 2;
+  canvasCible.height = Math.ceil(hauteurGrille) + 2;
+
+  const ctx = canvasCible.getContext('2d');
+  ctx.clearRect(0, 0, canvasCible.width, canvasCible.height);
+
+  let decalageX = 1;
+  for (const { grille, colonnes } of glyphes) {
+    for (let rangee = 0; rangee < 10; rangee++) {
+      for (let col = 0; col < colonnes; col++) {
+        const x  = decalageX + col * largeurCol;
+        const y  = 1 + posY[rangee];
+        const lc = largeurCol - 0.5;
+        const hc = hauteurs[rangee] - 0.5;
+        if (grille[rangee] && grille[rangee][col]) {
+          ctx.fillStyle = couleur;
+          ctx.fillRect(x, y, lc, hc);
+        } else {
+          ctx.fillStyle = 'rgba(0,0,0,0.03)';
+          ctx.fillRect(x, y, lc, hc);
+          ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+          ctx.lineWidth = 0.3;
+          ctx.strokeRect(x + 0.15, y + 0.15, lc - 0.3, hc - 0.3);
+        }
+      }
+    }
+    decalageX += colonnes * largeurCol + ecartement;
+  }
 }
 
+
+// export svg
+function exporterSVG(glyphes, largeurCol, hauteurGrille, ecartement, couleur, nomFichier) {
+  const { hauteurs, posY } = metriquesRangees(hauteurGrille);
+  const largeurTotale = glyphes.reduce((somme, g, i) =>
+    somme + g.colonnes * largeurCol + (i < glyphes.length - 1 ? ecartement : 0), 0);
+
+  let rectangles = '', decalageX = 0;
+  for (const { grille, colonnes } of glyphes) {
+    for (let rangee = 0; rangee < 10; rangee++) {
+      for (let col = 0; col < colonnes; col++) {
+        if (grille[rangee] && grille[rangee][col]) {
+          const x = decalageX + col * largeurCol;
+          rectangles += `<rect x="${x.toFixed(2)}" y="${posY[rangee].toFixed(2)}" width="${(largeurCol - 0.5).toFixed(2)}" height="${(hauteurs[rangee] - 0.5).toFixed(2)}" fill="${couleur}"/>`;
+        }
+      }
+    }
+    decalageX += colonnes * largeurCol + ecartement;
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${largeurTotale.toFixed(0)}" height="${hauteurGrille}">${rectangles}</svg>`;
+  const lien = document.createElement('a');
+  lien.href     = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  lien.download = nomFichier;
+  lien.click();
+}
+
+
+// conversion grille vers contours opentype
+function grilleVersCheminOpenType(grille, colonnes, largeurCol, hauteurRendu) {
+  const { hauteurs, posY } = metriquesRangees(hauteurRendu);
+  const echelle = EM / hauteurRendu;
+  const chemin  = new opentype.Path();
+
+  for (let rangee = 0; rangee < 10; rangee++) {
+    const yHaut = ASCENDANTE - (posY[rangee] / hauteurRendu) * (ASCENDANTE - DESCENDANTE);
+    const yBas  = ASCENDANTE - ((posY[rangee] + hauteurs[rangee]) / hauteurRendu) * (ASCENDANTE - DESCENDANTE);
+
+    for (let col = 0; col < colonnes; col++) {
+      if (!grille[rangee] || !grille[rangee][col]) continue;
+      const xG = col * largeurCol * echelle;
+      const xD = (col + 1) * largeurCol * echelle;
+      chemin.moveTo(xG, yBas);
+      chemin.lineTo(xG, yHaut);
+      chemin.lineTo(xD, yHaut);
+      chemin.lineTo(xD, yBas);
+      chemin.close();
+    }
+  }
+  return chemin;
+}
+
+// mesure du kerning depuis le navigateur
+function mesurerKerning(caracteres, chainePolice) {
+  const TAILLE_MESURE = 200;
+  const policeDesMesures = chainePolice.replace(/\d+(\.\d+)?px/, TAILLE_MESURE + 'px');
+
+  const c = document.createElement('canvas');
+  c.width = 2; c.height = 2;
+  const ctx = c.getContext('2d');
+  ctx.font = policeDesMesures;
+  ctx.fontKerning = 'normal';
+
+  const largeursSingles = {};
+  for (const ch of caracteres) largeursSingles[ch] = ctx.measureText(ch).width;
+
+  const pairesKerning = {};
+  for (const a of caracteres) {
+    for (const b of caracteres) {
+      const kern = ctx.measureText(a + b).width - largeursSingles[a] - largeursSingles[b];
+      if (Math.abs(kern) > 0.1) pairesKerning[a + '|' + b] = Math.round(kern * (EM / TAILLE_MESURE));
+    }
+  }
+  return pairesKerning;
+}
+
+
+// export otf
 document.getElementById('exportOTF').onclick = function () {
   if (typeof opentype === 'undefined') return;
-  const state = getFontState(), fontName = document.getElementById('fontName').value || 'GrilleTypo';
-  const chars = [...new Set(FULL_SPECIMEN.split(''))].filter(c => c.trim() !== '');
+  const etat     = lireEtatTexte();
+  const nomFonte = document.getElementById('fontName').value || 'GrilleTypo';
+  const caracteres = [...new Set(SPECIMEN.split(''))].filter(c => c.trim() !== '');
+
   setTimeout(() => {
-    const fs = `${state.fontStyle} ${state.fontWeight} ${state.renderSize * state.fontSize}px ${state.font}`;
-    const kp = measureKerning(chars, fs);
-    const glyphList = [new opentype.Glyph({ name: '.notdef', unicode: 0, advanceWidth: 500, path: new opentype.Path() })];
-    const gbc = {};
-    for (const ch of chars) {
-      const r = pixelizeChar(ch, state); if (!r.cols) continue;
-      const g = new opentype.Glyph({ name: 'uni'+ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0'), unicode: ch.codePointAt(0), advanceWidth: Math.round(r.cols * r.cellW * (EM / state.renderSize)), path: gridToOpenTypePath(r.grid, r.cols, r.cellW, state.renderSize) });
-      glyphList.push(g); gbc[ch] = g;
+    const chainePolice = `${etat.fontStyle} ${etat.fontWeight} ${etat.renderSize * etat.fontSize}px ${etat.font}`;
+    const pairesKerning = mesurerKerning(caracteres, chainePolice);
+
+    const glyphes = [new opentype.Glyph({ name: '.notdef', unicode: 0, advanceWidth: 500, path: new opentype.Path() })];
+    const glypheParCaractere = {};
+
+    for (const ch of caracteres) {
+      const res = pixeliserCaractere(ch, etat);
+      if (!res.colonnes) continue;
+      const g = new opentype.Glyph({
+        name:         'uni' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'),
+        unicode:      ch.codePointAt(0),
+        advanceWidth: Math.round(res.colonnes * res.largeurCellule * (EM / etat.renderSize)),
+        path:         grilleVersCheminOpenType(res.grille, res.colonnes, res.largeurCellule, etat.renderSize)
+      });
+      glyphes.push(g);
+      glypheParCaractere[ch] = g;
     }
-    const font = new opentype.Font({ familyName: fontName, styleName: 'Regular', unitsPerEm: EM, ascender: ASCENDER, descender: DESCENDER, glyphs: glyphList });
-    const ke = [];
-    for (const [pair, value] of Object.entries(kp)) { const [a,b] = pair.split('|'); if (gbc[a]&&gbc[b]) ke.push({ leftIndex: glyphList.indexOf(gbc[a]), rightIndex: glyphList.indexOf(gbc[b]), value }); }
-    if (ke.length > 0) font.tables.kern = { version: 0, subtables: [{ coverage: 1, format: 0, pairs: ke }] };
-    font.download(fontName + '.otf');
+
+    const fonte = new opentype.Font({
+      familyName: nomFonte,
+      styleName:  'Regular',
+      unitsPerEm: EM,
+      ascender:   ASCENDANTE,
+      descender:  DESCENDANTE,
+      glyphs:     glyphes
+    });
+
+    const entreeKerning = [];
+    for (const [paire, valeur] of Object.entries(pairesKerning)) {
+      const [a, b] = paire.split('|');
+      if (glypheParCaractere[a] && glypheParCaractere[b]) {
+        entreeKerning.push({
+          leftIndex:  glyphes.indexOf(glypheParCaractere[a]),
+          rightIndex: glyphes.indexOf(glypheParCaractere[b]),
+          value:      valeur
+        });
+      }
+    }
+    if (entreeKerning.length > 0) {
+      fonte.tables.kern = { version: 0, subtables: [{ coverage: 1, format: 0, pairs: entreeKerning }] };
+    }
+
+    fonte.download(nomFonte + '.otf');
   }, 50);
 };
 
-const mainCanvas = document.getElementById('mainCanvas');
 
-function getFontState() {
+// mode texte
+const canvasPrincipal = document.getElementById('mainCanvas');
+
+function lireEtatTexte() {
   return {
-    text: document.getElementById('inputText').value || 'A',
-    font: document.getElementById('fontSelect').value,
-    fontWeight: document.getElementById('fontWeight').value,
-    fontStyle: document.getElementById('fontStyle').value,
-    fontSize: parseInt(document.getElementById('fontSize').value) / 100,
-    threshold: parseInt(document.getElementById('threshold').value) / 100,
-    zoom: parseFloat(document.getElementById('zoom').value),
-    renderSize: parseInt(document.getElementById('renderSize').value),
-    yOffset: parseInt(document.getElementById('yOffset').value),
+    text:          document.getElementById('inputText').value || 'A',
+    font:          document.getElementById('fontSelect').value,
+    fontWeight:    document.getElementById('fontWeight').value,
+    fontStyle:     document.getElementById('fontStyle').value,
+    fontSize:      parseInt(document.getElementById('fontSize').value) / 100,
+    threshold:     parseInt(document.getElementById('threshold').value) / 100,
+    zoom:          parseFloat(document.getElementById('zoom').value),
+    renderSize:    parseInt(document.getElementById('renderSize').value),
+    yOffset:       parseInt(document.getElementById('yOffset').value),
     letterSpacing: parseFloat(document.getElementById('letterSpacing').value),
-    color: document.getElementById('textColor').value,
+    color:         document.getElementById('textColor').value,
   };
 }
 
-function renderFont() {
-  const s = getFontState(), CW = cellWidth(s.renderSize) * s.zoom, H = s.renderSize * s.zoom;
-  renderGrid(mainCanvas, s.text.split('').map(ch => pixelizeChar(ch, s)), H, CW, CW * s.letterSpacing, s.color);
+function rendreTexte() {
+  const e   = lireEtatTexte();
+  const LC  = largeurCellule(e.renderSize) * e.zoom;
+  const H   = e.renderSize * e.zoom;
+  const gap = LC * e.letterSpacing;
+  dessinerGrille(canvasPrincipal, e.text.split('').map(ch => pixeliserCaractere(ch, e)), H, LC, gap, e.color);
 }
 
-document.getElementById('exportSVG').onclick = function () { const s = getFontState(), CW = cellWidth(s.renderSize); exportSVG(s.text.split('').map(ch => pixelizeChar(ch,s)), CW, s.renderSize, CW*s.letterSpacing, s.color, 'typo-grille.svg'); };
-document.getElementById('exportPNG').onclick = function () { const s = getFontState(), CW = cellWidth(s.renderSize)*s.zoom, ec = document.createElement('canvas'); renderGrid(ec, s.text.split('').map(ch=>pixelizeChar(ch,s)), s.renderSize*s.zoom, CW, CW*s.letterSpacing, s.color); ec.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='typo-grille.png';a.click();}); };
+document.getElementById('exportSVG').onclick = function () {
+  const e  = lireEtatTexte();
+  const LC = largeurCellule(e.renderSize);
+  exporterSVG(e.text.split('').map(ch => pixeliserCaractere(ch, e)), LC, e.renderSize, LC * e.letterSpacing, e.color, 'typo-grille.svg');
+};
+
+document.getElementById('exportPNG').onclick = function () {
+  const e  = lireEtatTexte();
+  const LC = largeurCellule(e.renderSize) * e.zoom;
+  const ec = document.createElement('canvas');
+  dessinerGrille(ec, e.text.split('').map(ch => pixeliserCaractere(ch, e)), e.renderSize * e.zoom, LC, LC * e.letterSpacing, e.color);
+  ec.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'typo-grille.png';
+    a.click();
+  });
+};
 
 document.getElementById('customFontInput').addEventListener('change', async function (e) {
-  const file = e.target.files[0]; if (!file) return;
-  const name = 'Custom_' + file.name.replace(/\.[^/.]+$/,'').replace(/\s+/g,'_');
-  const face = new FontFace(name, await file.arrayBuffer());
-  await face.load(); document.fonts.add(face);
-  const sel = document.getElementById('fontSelect'), opt = document.createElement('option');
-  opt.value = name; opt.textContent = '✓ ' + file.name.replace(/\.[^/.]+$/,'');
-  sel.appendChild(opt); sel.value = name; renderFont();
+  const fichier = e.target.files[0];
+  if (!fichier) return;
+  const nom  = 'Custom_' + fichier.name.replace(/\.[^/.]+$/, '').replace(/\s+/g, '_');
+  const face = new FontFace(nom, await fichier.arrayBuffer());
+  await face.load();
+  document.fonts.add(face);
+  const sel = document.getElementById('fontSelect');
+  const opt = document.createElement('option');
+  opt.value = nom;
+  opt.textContent = '✓ ' + fichier.name.replace(/\.[^/.]+$/, '');
+  sel.appendChild(opt);
+  sel.value = nom;
+  rendreTexte();
 });
 
-const fontSliders = { threshold:'threshVal', zoom:'zoomVal', renderSize:'rsVal', yOffset:'yOVal', letterSpacing:'lsVal', fontSize:'fontSizeVal' };
-for (const [id, labelId] of Object.entries(fontSliders))
-  document.getElementById(id).oninput = function () { document.getElementById(labelId).textContent = this.value; renderFont(); };
-['fontSelect','fontWeight','fontStyle'].forEach(id => document.getElementById(id).onchange = renderFont);
-document.getElementById('inputText').oninput = renderFont;
-document.getElementById('textColor').oninput = renderFont;
+const slidersTexte = {
+  threshold: 'threshVal', zoom: 'zoomVal', renderSize: 'rsVal',
+  yOffset: 'yOVal', letterSpacing: 'lsVal', fontSize: 'fontSizeVal'
+};
+for (const [id, labelId] of Object.entries(slidersTexte)) {
+  document.getElementById(id).oninput = function () {
+    document.getElementById(labelId).textContent = this.value;
+    rendreTexte();
+  };
+}
+['fontSelect', 'fontWeight', 'fontStyle'].forEach(id => document.getElementById(id).onchange = rendreTexte);
+document.getElementById('inputText').oninput = rendreTexte;
+document.getElementById('textColor').oninput = rendreTexte;
 
-const DRAW_W = 2700, DRAW_H = 900;
-const DRAW_CW = cellWidth(DRAW_H), DRAW_COLS = Math.ceil(DRAW_W / DRAW_CW);
-const { heights: DRAW_ROW_H, ys: DRAW_ROW_Y } = computeRowMetrics(DRAW_H);
-const drawCanvas = document.getElementById('drawCanvas'), drawCtx = drawCanvas.getContext('2d');
-const drawResult = document.getElementById('drawResult');
-drawCanvas.width = DRAW_W; drawCanvas.height = DRAW_H; drawCtx.clearRect(0,0,DRAW_W,DRAW_H);
-const RESULT_W = Math.ceil(DRAW_COLS * DRAW_CW) + 2, RESULT_H = Math.ceil(DRAW_H) + 2;
-drawResult.width = RESULT_W; drawResult.height = RESULT_H;
-let isDrawing = false, currentTool = 'draw', lastPos = null;
 
-function getDrawState() { return { brushSize: parseInt(document.getElementById('brushSize').value), threshold: parseInt(document.getElementById('drawThreshold').value)/100, color: document.getElementById('drawColor').value }; }
+// mode dessin
+const DESSIN_W = 2700, DESSIN_H = 900;
+const DESSIN_LC   = largeurCellule(DESSIN_H);
+const DESSIN_COLS = Math.ceil(DESSIN_W / DESSIN_LC);
+const { hauteurs: RANGEES_H, posY: RANGEES_Y } = metriquesRangees(DESSIN_H);
 
-function renderDraw() {
-  const s = getDrawState();
-  const tmp = document.createElement('canvas'); tmp.width = DRAW_W; tmp.height = DRAW_H;
-  const tmpCtx = tmp.getContext('2d'); tmpCtx.drawImage(drawCanvas, 0, 0);
-  const pixels = tmpCtx.getImageData(0, 0, DRAW_W, DRAW_H);
-  for (let i = 0; i < pixels.data.length; i += 4) { const a = pixels.data[i+3]; pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=0; pixels.data[i+3]=a>10?a:0; }
-  tmpCtx.putImageData(pixels, 0, 0);
-  const sp = tmpCtx.getImageData(0,0,DRAW_W,DRAW_H).data;
-  const ctx = drawResult.getContext('2d'); ctx.clearRect(0,0,RESULT_W,RESULT_H);
-  for (let row = 0; row < 10; row++) {
-    const rowY = Math.round(DRAW_ROW_Y[row]), rowH = Math.max(1,Math.round(DRAW_ROW_H[row]));
-    for (let col = 0; col < DRAW_COLS; col++) {
-      const cellX = Math.round(col*DRAW_CW), cellW = Math.max(1,Math.round(DRAW_CW));
-      let filled=0, total=0;
-      for (let py=rowY; py<Math.min(rowY+rowH,DRAW_H); py++) for (let px=cellX; px<Math.min(cellX+cellW,DRAW_W); px++) { if(sp[(py*DRAW_W+px)*4+3]>15)filled++; total++; }
-      const active = total>0 && filled/total>=s.threshold;
-      const x=1+col*DRAW_CW, y=1+DRAW_ROW_Y[row], dw=DRAW_CW-0.5, dh=DRAW_ROW_H[row]-0.5;
-      if (active) { ctx.fillStyle=s.color; ctx.fillRect(x,y,dw,dh); }
-      else { ctx.fillStyle='rgba(0,0,0,0.03)'; ctx.fillRect(x,y,dw,dh); ctx.strokeStyle='rgba(0,0,0,0.08)'; ctx.lineWidth=0.3; ctx.strokeRect(x+0.15,y+0.15,dw-0.3,dh-0.3); }
+const canvasDessin   = document.getElementById('canvasDessin');
+const ctxDessin      = canvasDessin.getContext('2d');
+const canvasResultat = document.getElementById('canvasResultat');
+
+canvasDessin.width  = DESSIN_W;
+canvasDessin.height = DESSIN_H;
+ctxDessin.clearRect(0, 0, DESSIN_W, DESSIN_H);
+
+const RESULTAT_W = Math.ceil(DESSIN_COLS * DESSIN_LC) + 2;
+const RESULTAT_H = Math.ceil(DESSIN_H) + 2;
+canvasResultat.width  = RESULTAT_W;
+canvasResultat.height = RESULTAT_H;
+
+let enDessin = false, outilActif = 'dessin', dernierePos = null;
+
+function lireEtatDessin() {
+  return {
+    tailleBrosse: parseInt(document.getElementById('brushSize').value),
+    threshold:    parseInt(document.getElementById('drawThreshold').value) / 100,
+    couleur:      document.getElementById('drawColor').value,
+  };
+}
+
+function rendreDessin() {
+  const e = lireEtatDessin();
+
+  // convertit le canvas de dessin en canal alpha (noir = rempli)
+  const tmp    = document.createElement('canvas');
+  tmp.width    = DESSIN_W;
+  tmp.height   = DESSIN_H;
+  const ctxTmp = tmp.getContext('2d');
+  ctxTmp.drawImage(canvasDessin, 0, 0);
+  const pixels = ctxTmp.getImageData(0, 0, DESSIN_W, DESSIN_H);
+  for (let i = 0; i < pixels.data.length; i += 4) {
+    const alpha = pixels.data[i + 3];
+    pixels.data[i] = pixels.data[i+1] = pixels.data[i+2] = 0;
+    pixels.data[i+3] = alpha > 10 ? alpha : 0;
+  }
+  ctxTmp.putImageData(pixels, 0, 0);
+
+  const pixelsConvertis = ctxTmp.getImageData(0, 0, DESSIN_W, DESSIN_H).data;
+  const ctx = canvasResultat.getContext('2d');
+  ctx.clearRect(0, 0, RESULTAT_W, RESULTAT_H);
+
+  for (let rangee = 0; rangee < 10; rangee++) {
+    const ry = Math.round(RANGEES_Y[rangee]);
+    const rh = Math.max(1, Math.round(RANGEES_H[rangee]));
+    for (let col = 0; col < DESSIN_COLS; col++) {
+      const cx = Math.round(col * DESSIN_LC);
+      const cw = Math.max(1, Math.round(DESSIN_LC));
+      let remplis = 0, total = 0;
+      for (let py = ry; py < Math.min(ry + rh, DESSIN_H); py++) {
+        for (let px = cx; px < Math.min(cx + cw, DESSIN_W); px++) {
+          if (pixelsConvertis[(py * DESSIN_W + px) * 4 + 3] > 15) remplis++;
+          total++;
+        }
+      }
+      const actif = total > 0 && remplis / total >= e.threshold;
+      const x = 1 + col * DESSIN_LC, y = 1 + RANGEES_Y[rangee];
+      const lc = DESSIN_LC - 0.5, hc = RANGEES_H[rangee] - 0.5;
+      if (actif) {
+        ctx.fillStyle = e.couleur;
+        ctx.fillRect(x, y, lc, hc);
+      } else {
+        ctx.fillStyle = 'rgba(0,0,0,0.03)';
+        ctx.fillRect(x, y, lc, hc);
+        ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+        ctx.lineWidth = 0.3;
+        ctx.strokeRect(x + 0.15, y + 0.15, lc - 0.3, hc - 0.3);
+      }
     }
   }
 }
 
-function getPos(e, c) { const r=c.getBoundingClientRect(), s=e.touches?e.touches[0]:e; return {x:(s.clientX-r.left)*(c.width/r.width), y:(s.clientY-r.top)*(c.height/r.height)}; }
-function doStroke(pos) {
-  const s=getDrawState(), ink=currentTool==='erase'?'rgba(0,0,0,1)':'#000';
-  drawCtx.globalCompositeOperation=currentTool==='erase'?'destination-out':'source-over';
-  if(lastPos){drawCtx.strokeStyle=ink;drawCtx.lineWidth=s.brushSize;drawCtx.lineCap='round';drawCtx.beginPath();drawCtx.moveTo(lastPos.x,lastPos.y);drawCtx.lineTo(pos.x,pos.y);drawCtx.stroke();}
-  drawCtx.fillStyle=ink;drawCtx.beginPath();drawCtx.arc(pos.x,pos.y,s.brushSize/2,0,Math.PI*2);drawCtx.fill();
-  lastPos=pos; renderDraw();
+function positionSurCanvas(evenement, canvas) {
+  const rect   = canvas.getBoundingClientRect();
+  const source = evenement.touches ? evenement.touches[0] : evenement;
+  return {
+    x: (source.clientX - rect.left) * (canvas.width / rect.width),
+    y: (source.clientY - rect.top)  * (canvas.height / rect.height)
+  };
 }
-drawCanvas.addEventListener('mousedown',  e=>{isDrawing=true;lastPos=null;doStroke(getPos(e,drawCanvas));});
-drawCanvas.addEventListener('mousemove',  e=>{if(isDrawing)doStroke(getPos(e,drawCanvas));});
-drawCanvas.addEventListener('mouseup',    ()=>{isDrawing=false;lastPos=null;});
-drawCanvas.addEventListener('mouseleave', ()=>{isDrawing=false;lastPos=null;});
-drawCanvas.addEventListener('touchstart', e=>{e.preventDefault();isDrawing=true;lastPos=null;doStroke(getPos(e,drawCanvas));},{passive:false});
-drawCanvas.addEventListener('touchmove',  e=>{e.preventDefault();if(isDrawing)doStroke(getPos(e,drawCanvas));},{passive:false});
-drawCanvas.addEventListener('touchend',   ()=>{isDrawing=false;lastPos=null;});
-document.getElementById('toolDraw').onclick  = function(){currentTool='draw';this.style.borderColor='#111';document.getElementById('toolErase').style.borderColor='';};
-document.getElementById('toolErase').onclick = function(){currentTool='erase';this.style.borderColor='#111';document.getElementById('toolDraw').style.borderColor='';};
-document.getElementById('clearDraw').onclick = function(){drawCtx.globalCompositeOperation='source-over';drawCtx.clearRect(0,0,DRAW_W,DRAW_H);drawResult.getContext('2d').clearRect(0,0,RESULT_W,RESULT_H);};
 
-document.getElementById('drawExportSVG').onclick = function(){
-  const s=getDrawState(), {heights,ys}=computeRowMetrics(DRAW_H);
-  const tmp=document.createElement('canvas');tmp.width=DRAW_W;tmp.height=DRAW_H;
-  const tc=tmp.getContext('2d');tc.drawImage(drawCanvas,0,0);
-  const px=tc.getImageData(0,0,DRAW_W,DRAW_H);
-  for(let i=0;i<px.data.length;i+=4){const l=(px.data[i]+px.data[i+1]+px.data[i+2])/3;px.data[i]=px.data[i+1]=px.data[i+2]=0;px.data[i+3]=255-l;}
-  tc.putImageData(px,0,0);
-  const pd=tc.getImageData(0,0,DRAW_W,DRAW_H).data;let rects='';
-  for(let row=0;row<10;row++){const rowY=Math.round(ys[row]),rowH=Math.max(1,Math.round(heights[row]));
-    for(let col=0;col<DRAW_COLS;col++){const cx=Math.round(col*DRAW_CW),cw=Math.max(1,Math.round(DRAW_CW));let f=0,t=0;
-      for(let py=rowY;py<Math.min(rowY+rowH,DRAW_H);py++)for(let px2=cx;px2<Math.min(cx+cw,DRAW_W);px2++){if(pd[(py*DRAW_W+px2)*4+3]>15)f++;t++;}
-      if(t>0&&f/t>=s.threshold)rects+=`<rect x="${(col*DRAW_CW).toFixed(2)}" y="${ys[row].toFixed(2)}" width="${(DRAW_CW-0.5).toFixed(2)}" height="${(heights[row]-0.5).toFixed(2)}" fill="${s.color}"/>`;
-    }}
-  const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="${(DRAW_COLS*DRAW_CW).toFixed(0)}" height="${DRAW_H}">${rects}</svg>`],{type:'image/svg+xml'}));link.download='dessin-grille.svg';link.click();
+function tracerTrait(pos) {
+  const e   = lireEtatDessin();
+  const enc = outilActif === 'gomme' ? 'rgba(0,0,0,1)' : '#000';
+  ctxDessin.globalCompositeOperation = outilActif === 'gomme' ? 'destination-out' : 'source-over';
+  if (dernierePos) {
+    ctxDessin.strokeStyle = enc;
+    ctxDessin.lineWidth   = e.tailleBrosse;
+    ctxDessin.lineCap     = 'round';
+    ctxDessin.beginPath();
+    ctxDessin.moveTo(dernierePos.x, dernierePos.y);
+    ctxDessin.lineTo(pos.x, pos.y);
+    ctxDessin.stroke();
+  }
+  ctxDessin.fillStyle = enc;
+  ctxDessin.beginPath();
+  ctxDessin.arc(pos.x, pos.y, e.tailleBrosse / 2, 0, Math.PI * 2);
+  ctxDessin.fill();
+  dernierePos = pos;
+  rendreDessin();
+}
+
+canvasDessin.addEventListener('mousedown',  e => { enDessin = true;  dernierePos = null; tracerTrait(positionSurCanvas(e, canvasDessin)); });
+canvasDessin.addEventListener('mousemove',  e => { if (enDessin) tracerTrait(positionSurCanvas(e, canvasDessin)); });
+canvasDessin.addEventListener('mouseup',    () => { enDessin = false; dernierePos = null; });
+canvasDessin.addEventListener('mouseleave', () => { enDessin = false; dernierePos = null; });
+canvasDessin.addEventListener('touchstart', e => { e.preventDefault(); enDessin = true;  dernierePos = null; tracerTrait(positionSurCanvas(e, canvasDessin)); }, { passive: false });
+canvasDessin.addEventListener('touchmove',  e => { e.preventDefault(); if (enDessin) tracerTrait(positionSurCanvas(e, canvasDessin)); }, { passive: false });
+canvasDessin.addEventListener('touchend',   () => { enDessin = false; dernierePos = null; });
+
+document.getElementById('toolDraw').onclick  = function () { outilActif = 'dessin'; this.style.borderColor = '#111'; document.getElementById('toolErase').style.borderColor = ''; };
+document.getElementById('toolErase').onclick = function () { outilActif = 'gomme';  this.style.borderColor = '#111'; document.getElementById('toolDraw').style.borderColor = ''; };
+
+document.getElementById('clearDraw').onclick = function () {
+  ctxDessin.globalCompositeOperation = 'source-over';
+  ctxDessin.clearRect(0, 0, DESSIN_W, DESSIN_H);
+  canvasResultat.getContext('2d').clearRect(0, 0, RESULTAT_W, RESULTAT_H);
 };
-document.getElementById('drawExportPNG').onclick = function(){drawResult.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dessin-grille.png';a.click();});};
-document.getElementById('brushSize').oninput    = function(){document.getElementById('brushSizeVal').textContent=this.value;};
-document.getElementById('drawThreshold').oninput = function(){document.getElementById('drawThreshVal').textContent=this.value;renderDraw();};
-document.getElementById('drawColor').oninput = renderDraw;
 
-// GRILLOTHÈQUE
-async function chargerEtAfficher() {
-  const grid = document.getElementById('grilloGrid');
-  grid.innerHTML = '';
+document.getElementById('drawExportSVG').onclick = function () {
+  const e = lireEtatDessin();
+  const { hauteurs, posY } = metriquesRangees(DESSIN_H);
+  const tmp    = document.createElement('canvas');
+  tmp.width    = DESSIN_W; tmp.height = DESSIN_H;
+  const ctxTmp = tmp.getContext('2d');
+  ctxTmp.drawImage(canvasDessin, 0, 0);
+  const pixels = ctxTmp.getImageData(0, 0, DESSIN_W, DESSIN_H);
+  for (let i = 0; i < pixels.data.length; i += 4) { const l = (pixels.data[i] + pixels.data[i+1] + pixels.data[i+2]) / 3; pixels.data[i] = pixels.data[i+1] = pixels.data[i+2] = 0; pixels.data[i+3] = 255 - l; }
+  ctxTmp.putImageData(pixels, 0, 0);
+  const px = ctxTmp.getImageData(0, 0, DESSIN_W, DESSIN_H).data;
+  let rects = '';
+  for (let rangee = 0; rangee < 10; rangee++) {
+    const ry = Math.round(posY[rangee]), rh = Math.max(1, Math.round(hauteurs[rangee]));
+    for (let col = 0; col < DESSIN_COLS; col++) {
+      const cx = Math.round(col * DESSIN_LC), cw = Math.max(1, Math.round(DESSIN_LC));
+      let remplis = 0, total = 0;
+      for (let py = ry; py < Math.min(ry + rh, DESSIN_H); py++)
+        for (let px2 = cx; px2 < Math.min(cx + cw, DESSIN_W); px2++) { if (px[(py * DESSIN_W + px2) * 4 + 3] > 15) remplis++; total++; }
+      if (total > 0 && remplis / total >= e.threshold)
+        rects += `<rect x="${(col * DESSIN_LC).toFixed(2)}" y="${posY[rangee].toFixed(2)}" width="${(DESSIN_LC - 0.5).toFixed(2)}" height="${(hauteurs[rangee] - 0.5).toFixed(2)}" fill="${e.couleur}"/>`;
+    }
+  }
+  const lien = document.createElement('a');
+  lien.href = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="${(DESSIN_COLS * DESSIN_LC).toFixed(0)}" height="${DESSIN_H}">${rects}</svg>`], { type: 'image/svg+xml' }));
+  lien.download = 'dessin-grille.svg';
+  lien.click();
+};
+
+document.getElementById('drawExportPNG').onclick = function () {
+  canvasResultat.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'dessin-grille.png';
+    a.click();
+  });
+};
+
+document.getElementById('brushSize').oninput     = function () { document.getElementById('brushSizeVal').textContent = this.value; };
+document.getElementById('drawThreshold').oninput  = function () { document.getElementById('drawThreshVal').textContent = this.value; rendreDessin(); };
+document.getElementById('drawColor').oninput      = rendreDessin;
+
+
+// grillothèque
+async function chargerEtAfficherGrille() {
+  const conteneur = document.getElementById('grilleCartes');
+  conteneur.innerHTML = '';
   try {
-    const liste = await charger();
+    const liste = await chargerDepuisBase();
     if (liste.length === 0) return;
-    grid.innerHTML = liste.map(c => `
-      <div class="grillo-card" data-png="${c.apercu_png||''}">
-        <img src="${c.apercu_png||''}" alt="">
-        <div class="grillo-card-info">
-          <div class="grillo-card-meta">${c.auteur} · ${new Date(c.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})}</div>
-        </div>
+    conteneur.innerHTML = liste.map(c => `
+      <div class="carte" data-png="${c.apercu_png || ''}">
+        <img src="${c.apercu_png || ''}" alt="">
+        <div class="carte-info">${c.auteur} · ${new Date(c.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
       </div>
     `).join('');
-    grid.querySelectorAll('.grillo-card').forEach(card => {
-      card.onclick = function(){
+    conteneur.querySelectorAll('.carte').forEach(carte => {
+      carte.onclick = function () {
         document.getElementById('lightboxImg').src = this.dataset.png;
-        document.getElementById('lightbox').classList.add('open');
+        document.getElementById('lightbox').classList.add('ouvert');
       };
     });
-  } catch(e) {}
+  } catch (e) {}
 }
-document.getElementById('grilloRefresh').onclick = chargerEtAfficher;
 
-// LIGHTBOX
-document.getElementById('lightboxClose').onclick = function(){document.getElementById('lightbox').classList.remove('open');};
-document.getElementById('lightbox').onclick = function(e){if(e.target===this)this.classList.remove('open');};
+document.getElementById('grilloRefresh').onclick = chargerEtAfficherGrille;
 
-// MODAL SAUVEGARDE
-let pendingType = null;
-function ouvrirModal(type){ pendingType=type; document.getElementById('saveTitle').value=''; document.getElementById('saveAuthor').value=''; document.getElementById('saveModal').classList.add('open'); document.getElementById('saveTitle').focus(); }
-document.getElementById('saveFont').onclick   = ()=>ouvrirModal('texte');
-document.getElementById('saveDraw').onclick   = ()=>ouvrirModal('dessin');
-document.getElementById('saveCancel').onclick = ()=>document.getElementById('saveModal').classList.remove('open');
-document.getElementById('saveModal').onclick  = function(e){if(e.target===this)this.classList.remove('open');};
 
-document.getElementById('saveConfirm').onclick = async function(){
-  const titre=document.getElementById('saveTitle').value.trim(), auteur=document.getElementById('saveAuthor').value.trim();
-  if(!titre||!auteur) return;
-  this.disabled=true;
+// lightbox
+document.getElementById('fermerLightbox').onclick = function () { document.getElementById('lightbox').classList.remove('ouvert'); };
+document.getElementById('lightbox').onclick = function (e) { if (e.target === this) this.classList.remove('ouvert'); };
+
+
+// modal sauvegarde
+let typeEnAttente = null;
+
+function ouvrirModal(type) {
+  typeEnAttente = type;
+  document.getElementById('saveTitre').value  = '';
+  document.getElementById('saveAuteur').value = '';
+  document.getElementById('modalSauvegarde').classList.add('ouvert');
+  document.getElementById('saveTitre').focus();
+}
+
+document.getElementById('saveFont').onclick    = () => ouvrirModal('texte');
+document.getElementById('saveDraw').onclick    = () => ouvrirModal('dessin');
+document.getElementById('saveAnnuler').onclick = () => document.getElementById('modalSauvegarde').classList.remove('ouvert');
+document.getElementById('modalSauvegarde').onclick = function (e) { if (e.target === this) this.classList.remove('ouvert'); };
+
+document.getElementById('saveConfirmer').onclick = async function () {
+  const titre  = document.getElementById('saveTitre').value.trim();
+  const auteur = document.getElementById('saveAuteur').value.trim();
+  if (!titre || !auteur) return;
+
+  this.disabled = true;
   try {
-    let apercu_png='';
-    if(pendingType==='texte'){
-      const s=getFontState(), CW=cellWidth(s.renderSize)*s.zoom, ec=document.createElement('canvas');
-      renderGrid(ec, s.text.split('').map(ch=>pixelizeChar(ch,s)), s.renderSize*s.zoom, CW, CW*s.letterSpacing, s.color);
-      apercu_png=ec.toDataURL('image/png');
-    } else { apercu_png=drawResult.toDataURL('image/png'); }
-    await sauvegarder(auteur, titre, pendingType, apercu_png);
-    document.getElementById('saveModal').classList.remove('open');
-    if(document.getElementById('mode-grillo').classList.contains('active')) chargerEtAfficher();
-  } catch(e){}
-  this.disabled=false;
+    let apercu_png = '';
+    if (typeEnAttente === 'texte') {
+      const e  = lireEtatTexte();
+      const LC = largeurCellule(e.renderSize) * e.zoom;
+      const ec = document.createElement('canvas');
+      dessinerGrille(ec, e.text.split('').map(ch => pixeliserCaractere(ch, e)), e.renderSize * e.zoom, LC, LC * e.letterSpacing, e.color);
+      apercu_png = ec.toDataURL('image/png');
+    } else {
+      apercu_png = canvasResultat.toDataURL('image/png');
+    }
+    await sauvegarderEnBase(auteur, titre, typeEnAttente, apercu_png);
+    document.getElementById('modalSauvegarde').classList.remove('ouvert');
+    if (document.getElementById('mode-grillo').classList.contains('actif')) chargerEtAfficherGrille();
+  } catch (e) {}
+  this.disabled = false;
 };
 
-// ONGLETS
-document.querySelectorAll('.tab').forEach(tab=>{
-  tab.onclick=function(){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
-    this.classList.add('active');
-    document.getElementById('mode-'+this.dataset.mode).classList.add('active');
-    if(this.dataset.mode==='grillo') chargerEtAfficher();
+
+// onglets
+document.querySelectorAll('.onglet').forEach(onglet => {
+  onglet.onclick = function () {
+    document.querySelectorAll('.onglet').forEach(o => o.classList.remove('actif'));
+    document.querySelectorAll('.mode').forEach(m => m.classList.remove('actif'));
+    this.classList.add('actif');
+    document.getElementById('mode-' + this.dataset.mode).classList.add('actif');
+    if (this.dataset.mode === 'grillo') chargerEtAfficherGrille();
   };
 });
 
-renderFont();
+rendreTexte();
 </script>
